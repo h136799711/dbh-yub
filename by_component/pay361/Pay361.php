@@ -5,6 +5,7 @@ namespace by\component\pay361;
 
 use by\component\http\HttpRequest;
 use by\infrastructure\helper\CallResultHelper;
+use Dbh\SfCoreBundle\Common\ByEnv;
 
 class Pay361
 {
@@ -26,6 +27,7 @@ class Pay361
 
         if (self::$instance == null) {
             self::$instance = new Pay361();
+            self::$instance->setKey(ByEnv::get('PAY361_KEY'));
         }
 
         return self::$instance;
