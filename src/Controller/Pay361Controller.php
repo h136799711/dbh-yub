@@ -61,7 +61,7 @@ class Pay361Controller extends BaseNeedLoginController
      * @return \by\infrastructure\base\CallResult
      * @throws \by\component\exception\NotLoginException
      */
-    public function orderQuery($shopPhone = '', $shopSubNumber = '') {
+    public function orderInfo($shopPhone = '', $shopSubNumber = '') {
         $this->checkLogin();
         return Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'))->orderQuery($shopPhone, $shopSubNumber);
     }
