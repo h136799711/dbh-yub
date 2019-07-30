@@ -1,16 +1,28 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use by\component\pay361\Pay361;
 use by\component\pay361\PayInfo;
 use Dbh\SfCoreBundle\Common\ByEnv;
+use Dbh\SfCoreBundle\Common\LoginSessionInterface;
+use Dbh\SfCoreBundle\Common\UserAccountServiceInterface;
+use Dbh\SfCoreBundle\Common\UserLogServiceInterface;
 use Dbh\SfCoreBundle\Controller\BaseNeedLoginController;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class Pay361Controller extends BaseNeedLoginController
 {
+    protected $logService;
+
+    public function __construct(
+        UserLogServiceInterface $logService,
+        UserAccountServiceInterface $userAccountService, LoginSessionInterface $loginSession, KernelInterface $kernel)
+    {
+        $this->logService = $logService;
+        parent::__construct($userAccountService, $loginSession, $kernel);
+    }
+
     /**
      * @param string $shopPhone
      * @param $bankCardNumber
@@ -38,6 +50,8 @@ class Pay361Controller extends BaseNeedLoginController
         $payInfo->setShopSubNumber($shopSubNumber);
         $payInfo->setNotifyUrl(ByEnv::get('PAY361_NOTIFY_URL'));
 
+        $note = '用户'.$this->getUid().'发起了代付请求'.json_encode($payInfo->toArray());
+        $this->logUserAction($this->logService, $note);
         return Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'))->pay($payInfo);
     }
 
@@ -59,6 +73,8 @@ class Pay361Controller extends BaseNeedLoginController
      */
     public function balance($shopPhone = '') {
         $this->checkLogin();
+        $note = '用户'.$this->getUid().'查看了余额';
+        $this->logUserAction($this->logService, $note);
         return Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'))->balance($shopPhone);
     }
 }
