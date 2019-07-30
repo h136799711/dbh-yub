@@ -1,0 +1,43 @@
+{
+    "aliyuncs/oss-sdk-php": {
+        "version": "v2.3.0"
+    },
+    "dbh/sf-core-bundle": {
+        "version": "v1.2.3"
+    },
+    "itboye/component_oss": {
+        "version": "v1.0.3"
+    },
+    "qiniu/php-sdk": {
+        "version": "v7.2.9"
+    },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.2.1"
+    },
+    "symfony/messenger": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "29716c100e8aef803ad72670deb3dc09bb052a64"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
+    },
+    "symfony/swiftmailer-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "429afc6c6778a1fdddb52a4f708cd94ff2c9960f"
+        },
+        "files": [
+            "config/packages/dev/swiftmailer.yaml",
+            "config/packages/swiftmailer.yaml",
+            "config/packages/test/swiftmailer.yaml"
+        ]
+    }
+}
