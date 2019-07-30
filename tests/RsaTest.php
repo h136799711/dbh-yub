@@ -10,21 +10,17 @@ namespace byTest\component\zmf_pay;
 
 use by\component\encrypt\rsa\Rsa;
 use by\component\pay361\Pay361;
-use Dbh\SfCoreBundle\Common\ByEnv;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 
 class RsaTest extends TestCase {
 
     public function testOrderQuery() {
-
-        Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'));
-        $shopPhone = '';
+        $shopPhone = '13484379290';
         $ret = Pay361::getInstance()->orderQuery($shopPhone);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
         var_dump($ret);
-        $ret = Pay361::getInstance()->balance($shopPhone, Pay361::PassagewayCode002);
+        $ret = Pay361::getInstance()->balance($shopPhone, Pay361::PassagewayCode003);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
         var_dump($ret);
     }
