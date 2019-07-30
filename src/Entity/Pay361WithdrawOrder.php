@@ -96,10 +96,53 @@ class Pay361WithdrawOrder extends BaseEntity
      */
     private $state;
 
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $payOrderNo;
+
+    /**
+     * @ORM\Column(type="decimal", precision=12, scale=2)
+     */
+    private $actualMoney;
+
+    /**
+     * @ORM\Column(type="decimal", precision=12, scale=2)
+     */
+    private $subMoney;
+
+    /**
+     * @ORM\Column(type="decimal", precision=12, scale=2)
+     */
+    private $serviceCharge;
+
+    /**
+     * @ORM\Column(type="string", length=128)
+     */
+    private $paySign;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $notifyTime;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $notifyShopPhone;
+
     public function __construct()
     {
         parent::__construct();
         $this->setState('');
+        $this->setPaySign('');
+        $this->setActualMoney(0);
+        $this->setPayOrderNo('');
+        $this->setServiceCharge(0);
+        $this->setSubMoney(0);
+        $this->setNotifyTime(0);
+        $this->setNotifyShopPhone('');
+
     }
 
     public function getId(): ?int
@@ -295,6 +338,90 @@ class Pay361WithdrawOrder extends BaseEntity
     public function setState(string $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getPayOrderNo(): ?string
+    {
+        return $this->payOrderNo;
+    }
+
+    public function setPayOrderNo(string $payOrderNo): self
+    {
+        $this->payOrderNo = $payOrderNo;
+
+        return $this;
+    }
+
+    public function getActualMoney(): ?string
+    {
+        return $this->actualMoney;
+    }
+
+    public function setActualMoney(string $actualMoney): self
+    {
+        $this->actualMoney = $actualMoney;
+
+        return $this;
+    }
+
+    public function getSubMoney()
+    {
+        return $this->subMoney;
+    }
+
+    public function setSubMoney($subMoney): self
+    {
+        $this->subMoney = $subMoney;
+
+        return $this;
+    }
+
+    public function getServiceCharge()
+    {
+        return $this->serviceCharge;
+    }
+
+    public function setServiceCharge($serviceCharge): self
+    {
+        $this->serviceCharge = $serviceCharge;
+
+        return $this;
+    }
+
+    public function getPaySign(): ?string
+    {
+        return $this->paySign;
+    }
+
+    public function setPaySign(string $paySign): self
+    {
+        $this->paySign = $paySign;
+
+        return $this;
+    }
+
+    public function getNotifyTime(): ?int
+    {
+        return $this->notifyTime;
+    }
+
+    public function setNotifyTime(int $notifyTime): self
+    {
+        $this->notifyTime = $notifyTime;
+
+        return $this;
+    }
+
+    public function getNotifyShopPhone(): ?string
+    {
+        return $this->notifyShopPhone;
+    }
+
+    public function setNotifyShopPhone(string $notifyShopPhone): self
+    {
+        $this->notifyShopPhone = $notifyShopPhone;
 
         return $this;
     }
