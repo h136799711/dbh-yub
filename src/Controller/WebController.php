@@ -7,9 +7,12 @@ namespace App\Controller;
 use App\Common\ByDatatreeCode;
 use App\ServiceInterface\BannersServiceInterface;
 
+use by\component\pay361\Pay361;
+use Dbh\SfCoreBundle\Common\ByEnv;
 use Dbh\SfCoreBundle\Common\LoginSessionInterface;
 use Dbh\SfCoreBundle\Common\UserAccountServiceInterface;
 use Dbh\SfCoreBundle\Controller\BaseH5Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -66,6 +69,4 @@ class WebController extends BaseH5Controller
         $banners = $this->bannerService->queryAllBy($map, ["sort" => "desc"]);
         return $this->render("web/lend.html.twig", ['banners' => $banners]);
     }
-
-
 }
