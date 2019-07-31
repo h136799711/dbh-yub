@@ -14,6 +14,7 @@ class Pay361
     const PassagewayCode003 = 'DF00003';//平安代付
 
     protected  $key;
+    protected $isDebug;
 
 
     protected static $instance;
@@ -21,6 +22,7 @@ class Pay361
     private function __construct()
     {
         $this->key = '';
+        $this->isDebug = false;
     }
 
     public static function getInstance(): self {
@@ -28,12 +30,26 @@ class Pay361
         if (self::$instance == null) {
             self::$instance = new Pay361();
             self::$instance->setKey(ByEnv::get('PAY361_KEY'));
+            if (empty(self::$instance->key)) {
+                throw new \Exception('pay361 key must set');
+            }
         }
 
         return self::$instance;
     }
 
-    public function setKey($key = '')
+    public function openDebug(): self {
+        $this->isDebug = true;
+        return $this;
+    }
+
+    public function closeDebug(): self {
+        $this->isDebug = false;
+        return $this;
+    }
+
+
+    public function setKey($key = ''): self
     {
         $this->key = $key;
         return $this;
@@ -70,19 +86,35 @@ class Pay361
 
         $sign = SignTool::sign($params, $this->key);
         $params['sign'] = $sign;
+        if ($this->isDebug) {
+            var_dump('params');
+            var_dump($params);
+        }
 
         $http = HttpRequest::newSession();
         $ret = $http->header('Content-Type', 'application/json')
+            ->timeout(10 * 1000, 10 * 1000)
+            ->retry(2)
             ->get($url, $params);
         if ($ret->success) {
             $content = $ret->getBody()->getContents();
+
+            if ($this->isDebug) {
+                var_dump('HttpReturnContent=> '.$content);
+            }
             $arr = @json_decode($content, JSON_OBJECT_AS_ARRAY);
             if ($arr === false) {
                 return CallResultHelper::fail('返回数据错误', $content);
             }
             if (array_key_exists('code', $arr)) {
                 if ($arr['code'] == 1) {
-                    return CallResultHelper::success($arr['data'], $arr['msg']);
+                    $msg = '---';
+                    if (array_key_exists('msg', $arr)) {
+                        $msg = $arr['msg'];
+                    } elseif (array_key_exists('message', $arr)) {
+                        $msg = $arr['message'];
+                    }
+                    return CallResultHelper::success($arr['data'], $msg);
                 } else {
                     return CallResultHelper::fail($arr['msg'], $arr['data']);
                 }

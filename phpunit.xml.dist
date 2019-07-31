@@ -27,7 +27,7 @@
         <!-- env name="TRUSTED_PROXIES" value="127.0.0.1,127.0.0.2" -->
         <!-- env name="TRUSTED_HOSTS" value="'^localhost|example\.com$'" -->
         <!-- ###- symfony/framework-bundle ### -->
-
+        <env name="PAY361_KEY" value="989babb31a3ee77d67e4f51ee30479a1dab1529b62e613f06a2d61c945372af6" />
         <!-- ###+ nelmio/cors-bundle ### -->
         <env name="CORS_ALLOW_ORIGIN" value="^https?://localhost(:[0-9]+)?$"/>
         <!-- ###- nelmio/cors-bundle ### -->

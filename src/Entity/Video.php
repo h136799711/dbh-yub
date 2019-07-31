@@ -62,6 +62,11 @@ class Video extends BaseEntity
     private $cover;
 
     /**
+     * @ORM\Column(type="bigint")
+     */
+    private $views;
+
+    /**
      * Video constructor.
      */
     public function __construct()
@@ -180,6 +185,18 @@ class Video extends BaseEntity
     public function setCover(string $cover): self
     {
         $this->cover = $cover;
+
+        return $this;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
 
         return $this;
     }

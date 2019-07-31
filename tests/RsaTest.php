@@ -16,11 +16,11 @@ use PHPUnit\Framework\TestCase;
 class RsaTest extends TestCase {
 
     public function testOrderQuery() {
-        $shopPhone = '13484379290';
-        $ret = Pay361::getInstance()->orderQuery($shopPhone);
+        $shopPhone = '13700004321';
+//        $ret = Pay361::getInstance()->orderQuery($shopPhone);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
-        var_dump($ret);
-        $ret = Pay361::getInstance()->balance($shopPhone, Pay361::PassagewayCode003);
+//        var_dump($ret);
+        $ret = Pay361::getInstance()->openDebug()->balance($shopPhone, Pay361::PassagewayCode001);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
         var_dump($ret);
     }
