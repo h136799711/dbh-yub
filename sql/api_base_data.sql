@@ -3688,7 +3688,7 @@ INSERT INTO `common_clients` (`id`, `uid`, `client_id`, `client_name`, `client_s
 
 INSERT INTO `common_config` (`id`, `name`, `project_id`, `type`, `title`, `cate`, `extra`, `remark`, `create_time`, `update_time`, `status`, `value`, `sort`) VALUES
 (169,'SYS_BRAND', 'a', 1, '平台名称', '1', '', '平台名称', 1378898976, 1547714096, 1, 'DBH', 4),
-(170, 'CONFIG_VERSION', 'a', 1, '配置版本', '1', '', '用于远程获取配置判断是否更新过,递增值', 1378898976, 1547714096, 1, '10000', 4),
+(170, gi'CONFIG_VERSION', 'a', 1, '配置版本', '1', '', '用于远程获取配置判断是否更新过,递增值', 1378898976, 1547714096, 1, '10000', 4),
 (1, 'WEBSITE_TITLE', 'a', 1, '网站标题2', '1', '', '网站标题前台显示标题3', 1378898976, 1547714096, 1, '管理平台', 4),
 (9, 'CONFIG_TYPE_LIST', 'a', 3, '配置类型列表', '4', '', '主要用于数据解析和页面表单的生成', 1378898976, 1435743903, 1, '0:数字\r\n1:字符\r\n2:文本\r\n3:数组\r\n4:枚举\r\n5:图片', 2),
 (10, 'WEBSITE_ICP', 'a', 1, '网站备案号', '1', '', '设置在网站底部显示的备案号，如“沪ICP备12007941号-2', 1378900335, 1379235859, 1, '', 9),
@@ -4002,27 +4002,45 @@ INSERT INTO `common_datatree` (`id`, `code`, `name`, `alias`, `sort`, `create_ti
 -- 转存表中的数据 `common_menu`
 --
 
-INSERT INTO `common_menu` (`id`, `icon`, `title`, `pid`, `level`, `sort`, `url`, `url_type`, `hide`, `tip`, `status`, `create_time`, `update_time`) VALUES
-(2, '', 'System', 0, 0, 0, '#', 0, 0, '', 1, 1546408709, 1546408709),
-(3, 'by-shujuzidian', 'DataDictionary', 2, 1, 0, '/admin/datatree/index', 1, 0, '', 1, 1546408724, 1546408724),
-(4, 'by-log', 'ApiLog', 2, 1, 0, '/admin/api/log', 1, 0, '', 1, 1546408736, 1546408736),
-(5, 'by-yingyongguanli', 'Clients', 2, 1, 0, '/admin/clients/index', 1, 0, '', 1, 1546408744, 1546408744),
-(6, 'by-xitongpeizhi', 'SystemSettings', 2, 1, 0, '/admin/config/index', 1, 0, '', 1, 1546408751, 1546408751),
-(8, 'by-navicon-jsgl', 'Roles', 2, 1, 0, '/admin/roles/index', 1, 0, '', 1, 1546408751, 1546408751),
-(14, 'by-celve', 'Policy', 2, 1, 0, '/admin/policy/index', 1, 0, '', 1, 1546408751, 1546408751),
-(15, 'by-caidan', 'Menu', 2, 1, 0, '/admin/menu/index', 1, 0, '', 1, 1546408751, 1546408751),
-(20, '#', 'Album', 0, 0, 0, '#', 1, 0, '', -1, 1548060457, 1554360728),
-(21, 'by-leimupinleifenleileibie', 'Category', 20, 1, 0, '/admin/album/category', 1, 0, '', -1, 1548060788, 1554360722),
-(22, 'by-xiangce', 'Album', 20, 1, 0, '/admin/album/index', 1, 0, '', -1, 1548060812, 1554360725),
-(23, 'by-guanggaowei', 'Banner', 2, 1, 0, '/admin/banners/index', 1, 0, '', 1, 1548472904, 1548472904),
-(24, '#', 'Cms', 0, 0, 0, '#', 1, 0, '', -1, 1551512930, 1554360771),
-(25, 'by-wenzhang', 'Article', 24, 1, 0, '/admin/cms_article/index', 1, 0, '', -1, 1551513015, 1554360769),
-(32, '#', 'CrowdFunding', 0, 0, 0, '#', 1, 0, '', 1, 1553247426, 1553247426),
-(33, 'by-xiangmu', 'Project', 32, 1, 10, '/admin/cfproject/index', 1, 0, '', 1, 1553247509, 1553247509),
-(34, 'by-pay-order', 'PayOrder', 32, 1, 6, '/admin/payorder/index', 1, 0, '', 1, 1553247609, 1553247609),
-(35, 'by-yonghuguanli', 'User', 32, 1, 1, '/admin/cfuser/index', 1, 0, '', 1, 1553247651, 1553247651),
-(36, 'by-dingdan', 'Order', 32, 1, 8, '/admin/cforder/index', 1, 0, '', 1, 1553247677, 1553247677),
-(37, '', '测试菜单', 0, 0, 0, '#12', 1, 0, '', -1, 1560150270, 1560150843);
+
+
+INSERT INTO `common_menu` (`id`, `icon`, `title`, `pid`, `level`, `sort`, `url`, `url_type`, `hide`, `tip`, `status`, `create_time`, `update_time`, `scene`) VALUES
+(2, '', 'System', 0, 0, 0, '#', 0, 0, '', 1, 1546408709, 1546408709, 'backend'),
+(3, 'by-shujuzidian', 'DataDictionary', 2, 1, 0, '/admin/datatree/index', 1, 0, '', 1, 1546408724, 1546408724, 'backend'),
+(4, 'by-log', 'ApiLog', 2, 1, 0, '/admin/api/log', 1, 0, '', 1, 1546408736, 1546408736, 'backend'),
+(5, 'by-yingyongguanli', 'Clients', 2, 1, 0, '/admin/clients/index', 1, 0, '', 1, 1546408744, 1546408744, 'backend'),
+(6, 'by-xitongpeizhi', 'SystemSettings', 2, 1, 0, '/admin/config/index', 1, 0, '', 1, 1546408751, 1546408751, 'backend'),
+(8, 'by-navicon-jsgl', 'Roles', 2, 1, 0, '/admin/roles/index', 1, 0, '', 1, 1546408751, 1546408751, 'backend'),
+(14, 'by-celve', 'Policy', 2, 1, 0, '/admin/policy/index', 1, 0, '', 1, 1546408751, 1546408751, 'backend'),
+(15, 'by-caidan', 'Menu', 2, 1, 0, '/admin/menu/index', 1, 0, '', 1, 1546408751, 1546408751, 'backend'),
+(20, '#', 'Album', 0, 0, 0, '#', 1, 0, '', -1, 1548060457, 1554360728, 'backend'),
+(21, 'by-leimupinleifenleileibie', 'Category', 20, 1, 0, '/admin/album/category', 1, 0, '', -1, 1548060788, 1554360722, 'backend'),
+(22, 'by-xiangce', 'Album', 20, 1, 0, '/admin/album/index', 1, 0, '', -1, 1548060812, 1554360725, 'backend'),
+(23, 'by-guanggaowei', 'Banner', 2, 1, 0, '/admin/banners/index', 1, 0, '', 1, 1548472904, 1548472904, 'backend'),
+(24, '#', 'Cms', 0, 0, 0, '#', 1, 0, '', -1, 1551512930, 1554360771, 'backend'),
+(25, 'by-wenzhang', 'Article', 24, 1, 0, '/admin/cms_article/index', 1, 0, '', -1, 1551513015, 1554360769, 'backend'),
+(32, '#', 'CrowdFunding', 0, 0, 0, '#', 1, 0, '', -1, 1553247426, 1563881332, 'backend'),
+(33, 'by-xiangmu', 'Project', 32, 1, 10, '/admin/cfproject/index', 1, 0, '', -1, 1553247509, 1563881331, 'backend'),
+(34, 'by-pay-order', 'PayOrder', 32, 1, 6, '/admin/payorder/index', 1, 0, '', -1, 1553247609, 1563881329, 'backend'),
+(35, 'by-yonghuguanli', 'User', 32, 1, 1, '/admin/cfuser/index', 1, 0, '', -1, 1553247651, 1563881328, 'backend'),
+(36, 'by-dingdan', 'Order', 32, 1, 8, '/admin/cforder/index', 1, 0, '', -1, 1553247677, 1563881326, 'backend'),
+(38, '#', 'Cms', 0, 0, 0, '#', 1, 0, '', 1, 1563882371, 1563882371, 'backend'),
+(39, 'by-wodewenzhang', 'Article', 38, 1, 0, '/admin/cms_article/index', 1, 0, '', 1, 1563882398, 1563882398, 'backend'),
+(40, 'by-dianpu', 'Shop', 2, 1, 0, '#', 1, 0, '', -1, 1563947028, 1563947039, 'backend'),
+(41, 'by-dianpu', 'Shop', 0, 0, 0, '#', 1, 0, '', 1, 1563947057, 1563947057, 'backend'),
+(42, 'by-leimupinleifenleileibie', 'Category', 41, 1, 0, '/admin/spcate/index', 1, 0, '', 1, 1563947076, 1563947076, 'backend'),
+(43, 'by-property', 'Attribute', 41, 1, 0, '/admin/sp_prop/index', 1, 0, '', 1, 1563947097, 1563947097, 'backend'),
+(44, 'by-pinpai', 'Brand', 41, 1, 0, '/admin/sp_brand/index', 1, 0, '', 1, 1563947122, 1563947122, 'backend'),
+(45, '#', 'Album', 0, 0, 0, '#', 1, 0, '', 1, 1563956466, 1563956466, 'backend'),
+(46, 'by-xiangce', 'Album', 45, 1, 0, '/admin/album/index', 1, 0, '', 1, 1563956487, 1563956487, 'backend'),
+(47, 'by-leimupinleifenleileibie', 'Category', 45, 1, 0, '/admin/album/category', 1, 0, '', 1, 1563956506, 1563956506, 'backend'),
+(48, '#', 'AlbumFrontIndex', 0, 0, 0, '#', 1, 0, '', 1, 1564110282, 1564110282, 'front'),
+(49, '#', 'sexy', 48, 1, 0, '/t/xinggan', 1, 0, '', 1, 1564110316, 1564110316, 'front'),
+(50, '#', 'uniform', 48, 1, 0, '/t/zhifu', 1, 0, '', 1, 1564110332, 1564110332, 'front'),
+(51, '#', 'shaofu', 48, 1, 0, '/t/shaofu', 1, 0, '', 1, 1564110351, 1564110351, 'front'),
+(52, '#', 'luoli', 48, 1, 0, '/t/luoli', 1, 0, '', 1, 1564110364, 1564110364, 'front'),
+(53, 'by-video', 'Video', 38, 1, 0, '/admin/video/index', 1, 0, '', 1, 1564136197, 1564136197, 'backend'),
+(54, 'by-fenlei', 'VideoCate', 38, 1, 0, '/admin/video/cate', 1, 0, '', 1, 1564136228, 1564136228, 'backend');
 
 -- --------------------------------------------------------
 
