@@ -16,18 +16,18 @@ class Tags extends BaseEntity
     public function __construct()
     {
         parent::__construct();
-        $this->albums = new ArrayCollection();
+//        $this->albums = new ArrayCollection();
         $this->cmsArticles = new ArrayCollection();
     }
 
-    public function getAlbums() {
-        return $this->albums;
-    }
-    /**
-     * Many Tags have Many Albums.
-     * @ORM\ManyToMany(targetEntity="Album", mappedBy="tags")
-     **/
-    private $albums;
+//    public function getAlbums() {
+//        return $this->albums;
+//    }
+//    /**
+//     * Many Tags have Many Albums.
+//     * @ORM\ManyToMany(targetEntity="Album", mappedBy="tags")
+//     **/
+//    private $albums;
 
     /**
      * @ORM\Id()
