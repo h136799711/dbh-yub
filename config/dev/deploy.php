@@ -10,11 +10,11 @@ return new class extends DefaultDeployer
     {
         return $this->getConfigBuilder()
             // SSH connection string to connect to the remote server (format: user@host-or-IP:port-number)
-            ->server('root@www.hebidu.cn:22')
+            ->server('root@http://47.56.100.242/:22')
             // the absolute path of the remote server directory where the project is deployed
-            ->deployDir('/home/repo/api.base')
+            ->deployDir('/home/repo/dbh-yub')
             // the URL of the Git repository where the project code is hosted
-            ->repositoryUrl('ssh://gogs@git.hebidu.cn:22/hebidu/dbh-core-api.git')
+            ->repositoryUrl('ssh://git@github.com:h136799711/dbh-yub.git')
             // the repository branch to deploy
             ->repositoryBranch('master')
             ->composerInstallFlags('--prefer-dist --no-interaction')
