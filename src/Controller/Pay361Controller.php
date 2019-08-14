@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use by\component\exception\NotLoginException;
 use by\component\pay361\Pay361;
 use by\component\pay361\PayInfo;
+use by\infrastructure\base\CallResult;
 use Dbh\SfCoreBundle\Common\ByEnv;
 use Dbh\SfCoreBundle\Common\LoginSessionInterface;
 use Dbh\SfCoreBundle\Common\UserAccountServiceInterface;
@@ -32,8 +34,8 @@ class Pay361Controller extends BaseNeedLoginController
      * @param $passagewayCode
      * @param $cardUserName
      * @param $shopSubNumber
-     * @return \by\infrastructure\base\CallResult
-     * @throws \by\component\exception\NotLoginException
+     * @return CallResult
+     * @throws NotLoginException
      */
     public function pay($shopPhone, $bankCardNumber, $bankName, $registBankName,
         $money, $passagewayCode, $cardUserName, $shopSubNumber
@@ -58,8 +60,8 @@ class Pay361Controller extends BaseNeedLoginController
     /**
      * @param string $shopPhone
      * @param string $shopSubNumber
-     * @return \by\infrastructure\base\CallResult
-     * @throws \by\component\exception\NotLoginException
+     * @return CallResult
+     * @throws NotLoginException
      */
     public function orderInfo($shopPhone = '', $shopSubNumber = '') {
         $this->checkLogin();
@@ -68,8 +70,9 @@ class Pay361Controller extends BaseNeedLoginController
 
     /**
      * @param string $shopPhone
-     * @return \by\infrastructure\base\CallResult
-     * @throws \by\component\exception\NotLoginException
+     * @return CallResult
+     * @throws NotLoginException
+     * @throws \Exception
      */
     public function balance($shopPhone = '') {
         $this->checkLogin();

@@ -14,7 +14,7 @@ return new class extends DefaultDeployer
             // the absolute path of the remote server directory where the project is deployed
             ->deployDir('/home/repo/dbh-yub')
             // the URL of the Git repository where the project code is hosted
-            ->repositoryUrl('ssh://git@github.com:h136799711/dbh-yub.git')
+            ->repositoryUrl('ssh://git@github.com/h136799711/dbh-yub.git')
             // the repository branch to deploy
             ->repositoryBranch('master')
             ->composerInstallFlags('--prefer-dist --no-interaction')
