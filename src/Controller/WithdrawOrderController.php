@@ -48,9 +48,13 @@ class WithdrawOrderController extends BaseNeedLoginController
      * @throws \ReflectionException
      * @throws \by\component\exception\NotLoginException
      */
-    public function create($shopPhone, $bankCardNumber, $bankName, $registBank, $registBankName,
-                           $cityNumber, $money, $passagewayCode, $cardUserName, $certNumber
+    public function create($bankCardNumber, $bankName, $registBank, $registBankName,
+                           $cityNumber, $money, $passagewayCode, $cardUserName, $certNumber, $shopPhone = ''
     ) {
+        if (empty($shopPhone)) {
+            $shopPhone = Pay361::getDefaultShopPhone();
+        }
+
         $this->checkLogin();
         $entity = new Pay361WithdrawOrder();
         $entity->setShopPhone($shopPhone);
@@ -131,5 +135,9 @@ class WithdrawOrderController extends BaseNeedLoginController
         }
 
         return $this->pay361WithdrawOrderService->queryAndCount($map, $pagingParams, ["createTime" => "desc"]);
+    }
+
+    public function info($orderNo) {
+        return $this->pay361WithdrawOrderService->info(['order_no' => $orderNo]);
     }
 }

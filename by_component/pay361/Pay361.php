@@ -55,6 +55,10 @@ class Pay361
         return $this;
     }
 
+    public static function getDefaultShopPhone() {
+        return '13700004321';
+    }
+
 
     public function orderQuery($shop_phone = '', $shop_sub_number = '')
     {
@@ -70,7 +74,7 @@ class Pay361
         $url = 'http://361pay.qu68s.cn/api/pay/checkPassagewayBalance';
         $params = [
             'shop_phone' => $shop_phone,
-            'passageway_code' => $passageway_code
+            'spassageway_code' => $passageway_code
         ];
 
         return $this->getRequest($url, $params);

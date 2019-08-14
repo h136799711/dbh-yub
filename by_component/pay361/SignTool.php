@@ -17,7 +17,6 @@ class SignTool
             }
             $str .= $k.'='.$v;
         }
-        var_dump($str.$key);
         return strtolower(hash('sha256', $str.$key));
     }
 }

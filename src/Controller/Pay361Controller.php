@@ -37,9 +37,12 @@ class Pay361Controller extends BaseNeedLoginController
      * @return CallResult
      * @throws NotLoginException
      */
-    public function pay($shopPhone, $bankCardNumber, $bankName, $registBankName,
-        $money, $passagewayCode, $cardUserName, $shopSubNumber
+    public function pay($bankCardNumber, $bankName, $registBankName,
+        $money, $passagewayCode, $cardUserName, $shopSubNumber, $shopPhone = ''
     ) {
+        if (empty($shopPhone)) {
+            $shopPhone = Pay361::getDefaultShopPhone();
+        }
         $this->checkLogin();
         $payInfo = new PayInfo();
         $payInfo->setShopPhone($shopPhone);
@@ -63,24 +66,28 @@ class Pay361Controller extends BaseNeedLoginController
      * @return CallResult
      * @throws NotLoginException
      */
-    public function orderInfo($shopPhone = '', $shopSubNumber = '') {
+    public function orderInfo($shopSubNumber, $shopPhone = '') {
         $this->checkLogin();
+        if (empty($shopPhone)) {
+            $shopPhone = Pay361::getDefaultShopPhone();
+        }
         return Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'))->orderQuery($shopPhone, $shopSubNumber);
     }
 
     /**
      * @param string $shopPhone
+     * @param string $code
      * @return CallResult
      * @throws NotLoginException
-     * @throws \Exception
      */
-    public function balance($shopPhone = '') {
+    public function balance($shopPhone = '', $code = Pay361::PassagewayCode001) {
         $this->checkLogin();
         if (empty($shopPhone)) {
-            $shopPhone = '13700004321';
+            $shopPhone = Pay361::getDefaultShopPhone();
         }
         $note = '用户'.$this->getUid().'查看了余额';
         $this->logUserAction($this->logService, $note);
-        return Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'))->balance($shopPhone);
+        return Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'))->balance($shopPhone, $code);
     }
+
 }
