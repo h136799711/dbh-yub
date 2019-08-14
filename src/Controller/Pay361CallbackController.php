@@ -61,6 +61,7 @@ class Pay361CallbackController extends AbstractController
         $event->setSubMoney($subMoney);
         $event->setSubState($subState);
         $event->setSubPaymentNumber($subPaymentNumber);
+        $event->setSign($sign);
 
         $this->eventDispatcher->dispatch($event);
 

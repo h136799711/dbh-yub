@@ -15,10 +15,27 @@ class Pay361NotifyEvent extends Event
     protected $serviceCharge;
     protected $subState;
     protected $shopPhone;
+    protected $sign;
 
 
     public function __construct()
     {
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSign()
+    {
+        return $this->sign;
+    }
+
+    /**
+     * @param mixed $sign
+     */
+    public function setSign($sign): void
+    {
+        $this->sign = $sign;
     }
 
     /**
