@@ -10,7 +10,7 @@ return new class extends DefaultDeployer
     {
         return $this->getConfigBuilder()
             // SSH connection string to connect to the remote server (format: user@host-or-IP:port-number)
-            ->server('root@http://47.56.100.242/:22')
+            ->server('root@47.56.100.242:22')
             // the absolute path of the remote server directory where the project is deployed
             ->deployDir('/home/repo/dbh-yub')
             // the URL of the Git repository where the project code is hosted

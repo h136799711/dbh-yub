@@ -17,9 +17,10 @@ class RsaTest extends TestCase {
 
     public function testOrderQuery() {
         $shopPhone = '13700004321';
-//        $ret = Pay361::getInstance()->orderQuery($shopPhone);
+        $orderNo = 'AAA';
+        $ret = Pay361::getInstance()->orderQuery($shopPhone, $orderNo);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
-//        var_dump($ret);
+        var_dump($ret);
         $ret = Pay361::getInstance()->openDebug()->balance($shopPhone, Pay361::PassagewayCode001);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
         var_dump($ret);

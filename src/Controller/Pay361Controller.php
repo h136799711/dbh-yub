@@ -73,6 +73,9 @@ class Pay361Controller extends BaseNeedLoginController
      */
     public function balance($shopPhone = '') {
         $this->checkLogin();
+        if (empty($shopPhone)) {
+            $shopPhone = '13700004321';
+        }
         $note = '用户'.$this->getUid().'查看了余额';
         $this->logUserAction($this->logService, $note);
         return Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'))->balance($shopPhone);
