@@ -13,6 +13,10 @@ class Pay361
     const PassagewayCode002 = 'DF00002';//沃代付
     const PassagewayCode003 = 'DF00003';//平安代付
 
+    const PayCreateApiUrl = 'http://361pay.qu68s.cn/api/subpayment/subPaymentInterface';
+    const PayInfoApiUrl = 'http://361pay.qu68s.cn/api/subpayment/subPaymentQuery';
+    const BalanceApiUrl = 'http://361pay.qu68s.cn/api/pay/checkPassagewayBalance';
+
     protected  $key;
     protected $isDebug;
 
@@ -62,28 +66,25 @@ class Pay361
 
     public function orderQuery($shop_phone = '', $shop_sub_number = '')
     {
-        $url = 'http://361pay.qu68s.cn/api/subpayment/subPaymentQuery';
         $params = [
             'shop_phone' => $shop_phone,
             'shop_sub_number' => $shop_sub_number
         ];
-        return $this->getRequest($url, $params);
+        return $this->getRequest(self::PayInfoApiUrl, $params);
     }
 
     public function balance($shop_phone = '', $passageway_code = '') {
-        $url = 'http://361pay.qu68s.cn/api/pay/checkPassagewayBalance';
         $params = [
-            'shop_phone' => $shop_phone,
-            'spassageway_code' => $passageway_code
+            'passageway_code' => $passageway_code,
+            'shop_phone' => $shop_phone
         ];
 
-        return $this->getRequest($url, $params);
+        return $this->getRequest(self::BalanceApiUrl, $params);
     }
 
     public function pay(PayInfo $payInfo) {
-        $url = "http://361pay.qu68s.cn/api/subpayment/subPaymentInterface";
         $params = $payInfo->toArray();
-        return $this->getRequest($url, $params);
+        return $this->getRequest(self::PayCreateApiUrl, $params);
     }
 
     public function getRequest($url, $params) {
@@ -97,7 +98,7 @@ class Pay361
 
         $http = HttpRequest::newSession();
         $ret = $http->header('Content-Type', 'application/json')
-            ->timeout(10 * 1000, 10 * 1000)
+            ->timeout(30 * 1000, 30 * 1000)
             ->retry(2)
             ->get($url, $params);
         if ($ret->success) {

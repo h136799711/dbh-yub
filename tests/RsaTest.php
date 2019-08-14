@@ -10,6 +10,7 @@ namespace byTest\component\zmf_pay;
 
 use by\component\encrypt\rsa\Rsa;
 use by\component\pay361\Pay361;
+use by\component\pay361\PayInfo;
 use PHPUnit\Framework\TestCase;
 
 
@@ -17,8 +18,22 @@ class RsaTest extends TestCase {
 
     public function testOrderQuery() {
         $shopPhone = '13700004321';
-        $orderNo = 'AAA';
-        $ret = Pay361::getInstance()->orderQuery($shopPhone, $orderNo);
+//        $orderNo = 'AAA';
+//        $ret = Pay361::getInstance()->orderQuery($shopPhone, $orderNo);
+//        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
+//        var_dump($ret);
+        $payInfo = new PayInfo();
+        $payInfo->setBankCardNumber('66666666');
+        $payInfo->setRegistBankName('xx');
+        $payInfo->setPassagewayCode('DF00001');
+        $payInfo->setBankName('xxx');
+        $payInfo->setMoney('100');
+        $payInfo->setNotifyUrl('xxx');
+        $payInfo->setShopSubNumber(strval(time()));
+        $payInfo->setShopPhone(Pay361::getDefaultShopPhone());
+        $payInfo->setCardUserName('hebidu');
+
+        $ret = Pay361::getInstance()->openDebug()->pay($payInfo);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
         var_dump($ret);
         $ret = Pay361::getInstance()->openDebug()->balance($shopPhone, Pay361::PassagewayCode001);

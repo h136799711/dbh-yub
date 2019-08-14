@@ -19,14 +19,14 @@ class PayInfo
 
     public function toArray() {
         return [
-            'shop_phone' => $this->getShopPhone(),
             'bank_card_number' => $this->getBankCardNumber(),
             'bank_name' => $this->getBankName(),
-            'regist_bank_name' => $this->getRegistBankName(),
+            'card_user_name' => $this->getCardUserName(),
             'money' => $this->getMoney(),
             'notify_url' => $this->getNotifyUrl(),
             'passageway_code' => $this->getPassagewayCode(),
-            'card_user_name' => $this->getCardUserName(),
+            'regist_bank_name' => $this->getRegistBankName(),
+            'shop_phone' => $this->getShopPhone(),
             'shop_sub_number' => $this->getShopSubNumber()
         ];
     }

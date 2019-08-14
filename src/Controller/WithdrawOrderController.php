@@ -48,8 +48,8 @@ class WithdrawOrderController extends BaseNeedLoginController
      * @throws \ReflectionException
      * @throws \by\component\exception\NotLoginException
      */
-    public function create($bankCardNumber, $bankName, $registBank, $registBankName,
-                           $cityNumber, $money, $passagewayCode, $cardUserName, $certNumber, $shopPhone = ''
+    public function create($bankCardNumber, $bankName, $registBankName,
+                           $money, $passagewayCode, $cardUserName, $certNumber, $registBank = '', $cityNumber = '', $shopPhone = ''
     ) {
         if (empty($shopPhone)) {
             $shopPhone = Pay361::getDefaultShopPhone();
@@ -87,11 +87,11 @@ class WithdrawOrderController extends BaseNeedLoginController
         $payInfo->setPassagewayCode($entity->getPassagewayCode());
         $payInfo->setCardUserName($entity->getCardUserName());
         $payInfo->setShopSubNumber($entity->getOrderNo());
-        $payInfo->setNotifyUrl($entity->getNotifyUrl());
-
+        $payInfo->setNotifyUrl(urlencode($entity->getNotifyUrl()));
+        var_dump($payInfo->toArray());
         $note = '用户'.$this->getUid().'发起了代付请求'.json_encode($payInfo->toArray());
         $this->logUserAction($this->userLogService, $note);
-        return Pay361::getInstance()->pay($payInfo);
+        return Pay361::getInstance()->openDebug()->pay($payInfo);
     }
 
     public function query(PagingParams $pagingParams, $startTime, $endTime, $minMoney = 0, $maxMoney = 0) {
