@@ -202,6 +202,11 @@ class UserAccount extends BaseEntity implements UserInterface, UserAccountInterf
      */
     private $passwordSet;
 
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $googleSecret;
+
     public function __construct()
     {
         parent::__construct();
@@ -629,6 +634,18 @@ class UserAccount extends BaseEntity implements UserInterface, UserAccountInterf
     public function setPasswordSet(int $passwordSet): self
     {
         $this->passwordSet = $passwordSet;
+
+        return $this;
+    }
+
+    public function getGoogleSecret(): ?string
+    {
+        return $this->googleSecret;
+    }
+
+    public function setGoogleSecret(string $googleSecret): self
+    {
+        $this->googleSecret = $googleSecret;
 
         return $this;
     }
