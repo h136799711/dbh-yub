@@ -673,6 +673,9 @@ class UserLoginSessionController extends BaseNeedLoginController
         }
 
         if (!empty($userAccount->getGoogleSecret())) {
+            if (empty($googleCode)) {
+                return '请输入校验码';
+            }
             $auth = new GoogleAuth();
             if (!$auth->verifyCode($userAccount->getGoogleSecret(), $googleCode)) {
                 return "令牌校验失败,请重试";
