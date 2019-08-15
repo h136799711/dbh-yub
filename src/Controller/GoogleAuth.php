@@ -23,7 +23,7 @@ class GoogleAuth extends BaseNeedLoginController
         $url = $auth->getQRCodeGoogleUrl('yub', $user->getGoogleSecret());
 
         $qrCode = new QrCode();
-        $qrCode->setSize(300);
+        $qrCode->setSize($size);
         $qrCode->setEncoding('UTF-8');
         $qrCode->setErrorCorrectionLevel(new ErrorCorrectionLevel(ErrorCorrectionLevel::MEDIUM));
         return new QrCodeResponse($qrCode);
