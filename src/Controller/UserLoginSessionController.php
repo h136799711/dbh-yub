@@ -7,6 +7,7 @@ use App\Entity\LoginSession;
 use App\Entity\UserAccount;
 use App\Entity\UserGrade;
 use App\Entity\UserProfile;
+use App\Helper\GoogleAuth;
 use App\Helper\ValidatorErrorHelper;
 use App\Message\UserRegisterMsg;
 use App\ServiceInterface\ClientsServiceInterface;
@@ -146,6 +147,32 @@ class UserLoginSessionController extends BaseNeedLoginController
             return CallResultHelper::fail('weixin oauth2 failed');
         }
     }
+
+    /**
+     * 开通谷歌验证
+     * @param int $switch
+     * @throws NotLoginException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function googleAuth($switch) {
+        $this->checkLogin();
+        $auth = new GoogleAuth();
+        $uid = $this->getUid();
+        $ua = $this->userAccountService->findById($uid);
+        if ($ua instanceof UserAccount) {
+            if ($switch == 1) {
+                // 开启
+                $gleSecret = $auth->createSecret();
+                $ua->setGoogleSecret($gleSecret);
+            } else {
+                // 关闭
+                $ua->setGoogleSecret('');
+            }
+            $this->userAccountService->flush($ua);
+        }
+    }
+
 
     /**
      * 更新用户信息 昵称、头像 都可选
