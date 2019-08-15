@@ -1,6 +1,7 @@
 <?php
 
-
+//var_dump($str = file_get_contents('https://detail.tmall.com/item.htm?id=13643813057'));
+//file_put_contents('t.txt', mb_convert_encoding($str, "UTF-8", "gbk"));
 $params = [
     'out_trade_no' => '222',
     'total_amount' => '100',

@@ -663,6 +663,34 @@ class UserLoginSessionController extends BaseNeedLoginController
         return $ret;
     }
 
+    public function loginByUsernameAndGoogleAuth($googleCode, $deviceType, $deviceToken, $username, $password, string $loginInfo = '', $countryNo = "86")
+    {
+        $countryNo = trim($countryNo, '+');
+        // 账户登录
+        $userAccount = $this->userAccountService->findOne(['project_id' => $this->getProjectId(), 'username' => $username]);
+        if (!($userAccount instanceof UserAccount)) {
+            return "account not exists";
+        }
+
+        if (!empty($userAccount->getGoogleSecret())) {
+            $auth = new GoogleAuth();
+            if (!$auth->verifyCode($userAccount->getGoogleSecret(), $googleCode)) {
+                return "令牌校验失败,请重试";
+            }
+        }
+
+        if (!$this->passwordEncoder->isPasswordValid($userAccount, $password)) {
+            $this->userLogService->log($userAccount->getId(), "用户登录失败(密码错误)", UserLogType::LOGIN, $this->request->getClientIp() ?? "", $deviceType, $this->request->headers->get('user-agent') ?? "");
+            return "invalid password";
+        }
+        $dto = $this->loginUserAccount($loginInfo, $deviceToken, $deviceType, $userAccount);
+
+        if ($dto instanceof UserLoginDto) {
+            $this->userLogService->log($dto->getId(), "用户登录成功(用户名+密码)", UserLogType::LOGIN, $this->request->getClientIp() ?? "", $deviceType, $this->request->headers->get('user-agent') ?? "");
+        }
+
+        return $dto;
+    }
 
     public function loginByUsername($deviceType, $deviceToken, $username, $password, string $loginInfo = '', $countryNo = "86", $verifyId = '', $verifyCode = '')
     {
