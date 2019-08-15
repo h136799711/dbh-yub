@@ -44,6 +44,23 @@ class UserLoginDto
     protected $pwdIsSet;
     // 邮箱
     protected $email;
+    protected $googleAuthSwitch;
+
+    /**
+     * @return mixed
+     */
+    public function getGoogleAuthSwitch()
+    {
+        return $this->googleAuthSwitch;
+    }
+
+    /**
+     * @param mixed $googleAuthSwitch
+     */
+    public function setGoogleAuthSwitch($googleAuthSwitch): void
+    {
+        $this->googleAuthSwitch = $googleAuthSwitch;
+    }
 
     /**
      * @return mixed
@@ -73,6 +90,7 @@ class UserLoginDto
         $this->setUserProfile($userAccount->getProfile());
         $this->setPwdIsSet($userAccount->getPasswordSet());
         $this->setEmail($userAccount->getEmail());
+        $this->setGoogleAuthSwitch(!empty($userAccount->getGoogleSecret()) ? 1 : 0);
     }
 
     /**
