@@ -20,6 +20,7 @@
     "doctrine/doctrine-fixtures-bundle": "^3.0",
     "easycorp/easy-deploy-bundle": "^1.0",
     "egulias/email-validator": "^2.1",
+    "endroid/qr-code": "^3.6",
     "itboye/component_3rd-queue-client": "^1.0",
     "itboye/component_http": "^1.0",
     "itboye/component_oss": "^1.0",

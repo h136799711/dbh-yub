@@ -8,6 +8,7 @@
 
 namespace byTest\component\zmf_pay;
 
+use App\Helper\GoogleAuth;
 use by\component\encrypt\rsa\Rsa;
 use by\component\pay361\Pay361;
 use by\component\pay361\PayInfo;
@@ -15,6 +16,15 @@ use PHPUnit\Framework\TestCase;
 
 
 class RsaTest extends TestCase {
+
+    public function testAuth() {
+        $auth = (new GoogleAuth());
+        $secret = $auth->createSecret(22);
+        var_dump($secret);
+        $code = $auth->getCode($secret);
+        var_dump($code);
+    }
+
 
     public function testOrderQuery() {
         $shopPhone = '13700004321';

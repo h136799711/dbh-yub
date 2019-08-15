@@ -97,22 +97,17 @@ class GoogleAuth
      * @param string $name
      * @param string $secret
      * @param string $title
-     * @param array $params
      *
      * @return string
      */
-    public function getQRCodeGoogleUrl($name, $secret, $title = null, $params = array())
+    public function getQRCodeGoogleUrl($name, $secret, $title = null)
     {
-        $width = !empty($params['width']) && (int)$params['width'] > 0 ? (int)$params['width'] : 200;
-        $height = !empty($params['height']) && (int)$params['height'] > 0 ? (int)$params['height'] : 200;
-        $level = !empty($params['level']) && array_search($params['level'], array('L', 'M', 'Q', 'H')) !== false ? $params['level'] : 'M';
-
         $urlencoded = urlencode('otpauth://totp/' . $name . '?secret=' . $secret . '');
         if (isset($title)) {
             $urlencoded .= urlencode('&issuer=' . urlencode($title));
         }
 
-        return "https://api.qrserver.com/v1/create-qr-code/?data=$urlencoded&size=${width}x${height}&ecc=$level";
+        return $urlencoded;
     }
 
     /**
@@ -150,7 +145,7 @@ class GoogleAuth
      *
      * @param int $length
      *
-     * @return PHPGangsta_GoogleAuthenticator
+     * @return GoogleAuth
      */
     public function setCodeLength($length)
     {
