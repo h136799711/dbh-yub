@@ -21,7 +21,7 @@ class GoogleAuthController extends BaseNeedLoginController
             return 'failed';
         }
 
-        $url = $auth->getQRCodeGoogleUrl($user->getId(), $user->getGoogleSecret());
+        $url = $auth->getQRCodeGoogleUrl($user->getId(), $user->getGoogleSecret(), 'YUB');
 
         $qrCode = new QrCode(urldecode($url));
 
