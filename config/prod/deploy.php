@@ -57,6 +57,6 @@ return new class extends DefaultDeployer
     public function beforeFinishingDeploy()
     {
         $this->runRemote('/bin/lnmp php-fpm reload');
-        $this->runLocal('say "The deployment has finished."');
+//        $this->runLocal('say "The deployment has finished."');
     }
 };
