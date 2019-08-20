@@ -39,7 +39,7 @@ class PayOrderController extends BaseSymfonyApiController
      */
     public function aliPayPc($subject, $orderNo, $money, $callbackUrl, $returnUrl = '', $note = '')
     {
-        $ret = $this->payOrderService->create($subject, $this->getClientId(), $orderNo, $money, PayOrder::PayTypeOfAliPayPc, $callbackUrl, $returnUrl, $note);
+        $ret = $this->payOrderService->create($subject, $this->getClientId(), $orderNo, intval($money), PayOrder::PayTypeOfAliPayPc, $callbackUrl, $returnUrl, $note);
         if ($ret->isFail()) {
             return $ret;
         }
