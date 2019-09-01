@@ -57,13 +57,13 @@ class Pay361NotifyEventListener implements EventSubscriberInterface
                 return ;
             }
             if ($order->getState() === 'success') {
-                $this->logger->debug('order is success: '.$order->getOrderNo());
+                $this->logger->info('order is success: '.$order->getOrderNo());
                 $this->withdrawOrderService->getEntityManager()->rollback();
                 return;
             }
             if ($order->getState() == $event->getSubState()) {
                 // 订单状态一样不处理
-                $this->logger->debug('order state is same: '.$order->getState());
+                $this->logger->info('order state is same: '.$order->getState());
                 return ;
             }
             // 更新状态
