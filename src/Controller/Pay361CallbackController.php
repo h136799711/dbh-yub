@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Events\Pay361NotifyEvent;
 use by\component\pay361\SignTool;
 use Dbh\SfCoreBundle\Common\ByEnv;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +18,10 @@ class Pay361CallbackController extends AbstractController
     protected $logService;
     protected $eventDispatcher;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(LoggerInterface $logger, EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
+        $this->logService = $logger;
     }
 
     /**
@@ -29,6 +31,9 @@ class Pay361CallbackController extends AbstractController
      */
     public function index(Request $request)
     {
+        $all = json_encode($request->request->all());
+        $get = json_encode($request->query->all());
+        $this->logService->info($all.';'.$get, ["c" => 'Pay361Callback']);
         $shopSubNumber = $request->get('shop_sub_number', '');
         $shopPhone = $request->get('shop_phone', '');
         $actualMoney = $request->get('actual_money', '');
