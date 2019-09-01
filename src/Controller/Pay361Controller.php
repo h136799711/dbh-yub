@@ -54,8 +54,7 @@ class Pay361Controller extends BaseNeedLoginController
         $payInfo->setPassagewayCode($passagewayCode);
         $payInfo->setCardUserName($cardUserName);
         $payInfo->setShopSubNumber($shopSubNumber);
-        $payInfo->setNotifyUrl(ByEnv::get('PAY361_NOTIFY_URL'));
-
+        $payInfo->setNotifyUrl(urldecode(ByEnv::get('PAY361_NOTIFY_URL')));
         $note = '用户'.$this->getUid().'发起了代付请求'.json_encode($payInfo->toArray());
         $this->logUserAction($this->logService, $note);
         return Pay361::getInstance()->setKey(ByEnv::get('PAY361_KEY'))->pay($payInfo);
