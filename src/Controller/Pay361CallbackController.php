@@ -25,7 +25,7 @@ class Pay361CallbackController extends AbstractController
     }
 
     /**
-     * @Route("/pay361/notify", name="pay361_notify")
+     * @Route("/pay361/notify", name="pay361_notify", methods={"POST","GET"})
      * @param Request $request
      * @return Response
      */
@@ -40,7 +40,7 @@ class Pay361CallbackController extends AbstractController
         $serviceCharge = $request->get('service_charge', '');
         $subMoney = $request->get('sub_money', '');
         $subState = $request->get('sub_state', '');
-        $subPaymentNumber = $request->get('subPaymentNumber', '');
+        $subPaymentNumber = $request->get('sub_payment_number', '');
         $sign = $request->get('sign', '');
         $data = [
             "shop_sub_number" => $shopSubNumber,
@@ -52,10 +52,12 @@ class Pay361CallbackController extends AbstractController
             "shop_phone" => $shopPhone
         ];
 
+        var_dump($data);
         $verifySign = SignTool::sign($data, ByEnv::get('PAY361_KEY'));
 
         if ($sign != $verifySign) {
-            return new Response('verify failed');
+
+            return new Response($sign.'verify failed'.$verifySign);
         }
 
         $event = new Pay361NotifyEvent();

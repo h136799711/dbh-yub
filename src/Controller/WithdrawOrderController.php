@@ -88,7 +88,6 @@ class WithdrawOrderController extends BaseNeedLoginController
         $payInfo->setCardUserName($entity->getCardUserName());
         $payInfo->setShopSubNumber($entity->getOrderNo());
         $payInfo->setNotifyUrl(($entity->getNotifyUrl()));
-//        var_dump($payInfo->toArray());
         $note = '用户'.$this->getUid().'发起了代付请求'.json_encode($payInfo->toArray());
         $this->logUserAction($this->userLogService, $note);
         return Pay361::getInstance()->pay($payInfo);

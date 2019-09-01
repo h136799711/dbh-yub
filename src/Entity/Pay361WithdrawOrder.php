@@ -102,17 +102,17 @@ class Pay361WithdrawOrder extends BaseEntity
     private $payOrderNo;
 
     /**
-     * @ORM\Column(type="decimal", precision=12, scale=2)
+     * @ORM\Column(type="decimal", precision=12, scale=4)
      */
     private $actualMoney;
 
     /**
-     * @ORM\Column(type="decimal", precision=12, scale=2)
+     * @ORM\Column(type="decimal", precision=12, scale=4)
      */
     private $subMoney;
 
     /**
-     * @ORM\Column(type="decimal", precision=12, scale=2)
+     * @ORM\Column(type="decimal", precision=12, scale=4)
      */
     private $serviceCharge;
 
