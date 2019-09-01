@@ -97,12 +97,23 @@ class Pay361
             var_dump($params);
 
         }
-
+        if(!empty($params))
+        {
+            if(strpos($url, '?'))
+            {
+                $url .= '&';
+            }
+            else
+            {
+                $url .= '?';
+            }
+            $url .= urldecode(http_build_query($params, '', '&'));
+        }
         $http = HttpRequest::newSession();
         $ret = $http->header('Content-Type', 'application/json')
             ->timeout(60 * 1000, 60 * 1000)
             ->retry(2)
-            ->get($url, $params);
+            ->get($url);
         if ($ret->success) {
             $content = $ret->getBody()->getContents();
 
@@ -110,7 +121,7 @@ class Pay361
                 var_dump('HttpReturnContent=> '.$content);
             }
             $arr = @json_decode($content, JSON_OBJECT_AS_ARRAY);
-            if ($arr === false) {
+            if (empty($arr)) {
                 return CallResultHelper::fail('返回数据错误', $content);
             }
             if (array_key_exists('code', $arr)) {
