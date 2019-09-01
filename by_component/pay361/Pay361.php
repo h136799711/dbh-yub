@@ -13,9 +13,9 @@ class Pay361
     const PassagewayCode002 = 'DF00002';//沃代付
     const PassagewayCode003 = 'DF00003';//平安代付
 
-    const PayCreateApiUrl = 'http://361pay.qu68s.cn/api/subpayment/subPaymentInterface';
-    const PayInfoApiUrl = 'http://361pay.qu68s.cn/api/subpayment/subPaymentQuery';
-    const BalanceApiUrl = 'http://361pay.qu68s.cn/api/pay/checkPassagewayBalance';
+    const PayCreateApiUrl = 'http://spay.delin888.com/subpayment/subPaymentInterface';
+    const PayInfoApiUrl =  'http://spay.delin888.com/subpayment/subPaymentQuery';
+    const BalanceApiUrl = 'http://spay.delin888.com/pay/checkPassagewayBalance';
 
     protected  $key;
     protected $isDebug;
@@ -60,9 +60,8 @@ class Pay361
     }
 
     public static function getDefaultShopPhone() {
-        return '13700004321';
+        return '18912344321';
     }
-
 
     public function orderQuery($shop_phone = '', $shop_sub_number = '')
     {
@@ -98,7 +97,7 @@ class Pay361
 
         $http = HttpRequest::newSession();
         $ret = $http->header('Content-Type', 'application/json')
-            ->timeout(30 * 1000, 30 * 1000)
+            ->timeout(60 * 1000, 60 * 1000)
             ->retry(2)
             ->get($url, $params);
         if ($ret->success) {

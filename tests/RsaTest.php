@@ -27,26 +27,21 @@ class RsaTest extends TestCase {
 
 
     public function testOrderQuery() {
-        $shopPhone = '13700004321';
-//        $orderNo = 'AAA';
-//        $ret = Pay361::getInstance()->orderQuery($shopPhone, $orderNo);
-//        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
-//        var_dump($ret);
         $payInfo = new PayInfo();
-        $payInfo->setBankCardNumber('66666666');
-        $payInfo->setRegistBankName('xx');
-        $payInfo->setPassagewayCode('DF00001');
-        $payInfo->setBankName('xxx');
+        $payInfo->setBankCardNumber('6236381420018999946');
+        $payInfo->setRegistBankName('建设银行');
+        $payInfo->setPassagewayCode(Pay361::PassagewayCode001);
+        $payInfo->setBankName('建设银行');
         $payInfo->setMoney('100');
-        $payInfo->setNotifyUrl('xxx');
+        $payInfo->setNotifyUrl('http://47.56.100.242/index.php/pay361/notify');
         $payInfo->setShopSubNumber(strval(time()));
         $payInfo->setShopPhone(Pay361::getDefaultShopPhone());
-        $payInfo->setCardUserName('hebidu');
+        $payInfo->setCardUserName('陈娜');
 
-        $ret = Pay361::getInstance()->openDebug()->pay($payInfo);
+//        $ret = Pay361::getInstance()->openDebug()->pay($payInfo);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
-        var_dump($ret);
-        $ret = Pay361::getInstance()->openDebug()->balance($shopPhone, Pay361::PassagewayCode001);
+//        var_dump($ret);
+        $ret = Pay361::getInstance()->openDebug()->balance(Pay361::getDefaultShopPhone(), Pay361::PassagewayCode001);
 //        Assert::assertTrue($ret->isSuccess(), $ret->getMsg());
         var_dump($ret);
     }
