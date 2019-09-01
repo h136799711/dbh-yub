@@ -5,6 +5,7 @@ namespace App\Controller;
 use by\component\exception\NotLoginException;
 use by\component\pay361\Pay361;
 use by\component\pay361\PayInfo;
+use by\component\string_extend\helper\StringHelper;
 use by\infrastructure\base\CallResult;
 use Dbh\SfCoreBundle\Common\ByEnv;
 use Dbh\SfCoreBundle\Common\LoginSessionInterface;
@@ -49,7 +50,7 @@ class Pay361Controller extends BaseNeedLoginController
         $payInfo->setBankCardNumber($bankCardNumber);
         $payInfo->setBankName($bankName);
         $payInfo->setRegistBankName($registBankName);
-        $payInfo->setMoney(floatval($money));
+        $payInfo->setMoney(StringHelper::numberFormat($money, 2));
         $payInfo->setPassagewayCode($passagewayCode);
         $payInfo->setCardUserName($cardUserName);
         $payInfo->setShopSubNumber($shopSubNumber);
