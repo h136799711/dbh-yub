@@ -6,6 +6,7 @@ namespace by\component\pay361;
 use by\component\http\HttpRequest;
 use by\infrastructure\helper\CallResultHelper;
 use Dbh\SfCoreBundle\Common\ByEnv;
+use Psr\Log\LoggerInterface;
 
 class Pay361
 {
@@ -22,6 +23,7 @@ class Pay361
 
 
     protected static $instance;
+    protected $logger;
 
     private function __construct()
     {
@@ -93,6 +95,7 @@ class Pay361
         if ($this->isDebug) {
             var_dump('params');
             var_dump($params);
+
         }
 
         $http = HttpRequest::newSession();

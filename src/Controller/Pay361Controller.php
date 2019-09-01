@@ -49,7 +49,7 @@ class Pay361Controller extends BaseNeedLoginController
         $payInfo->setBankCardNumber($bankCardNumber);
         $payInfo->setBankName($bankName);
         $payInfo->setRegistBankName($registBankName);
-        $payInfo->setMoney(strval($money));
+        $payInfo->setMoney(floatval($money));
         $payInfo->setPassagewayCode($passagewayCode);
         $payInfo->setCardUserName($cardUserName);
         $payInfo->setShopSubNumber($shopSubNumber);
