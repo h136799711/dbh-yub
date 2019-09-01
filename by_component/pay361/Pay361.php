@@ -95,7 +95,6 @@ class Pay361
         if ($this->isDebug) {
             var_dump('params');
             var_dump($params);
-
         }
         if(!empty($params))
         {
@@ -107,7 +106,13 @@ class Pay361
             {
                 $url .= '?';
             }
-            $url .= urldecode(http_build_query($params, '', '&'));
+            $notifyUrl = '';
+            if (array_key_exists('notify_url', $params)) {
+                $notifyUrl = $params['notify_url'];
+                unset($params['notify_url']);
+            }
+            $url .= http_build_query($params, '', '&');
+            $url .= '&notify_url='.$notifyUrl;
         }
         $http = HttpRequest::newSession();
         $ret = $http->header('Content-Type', 'application/json')
