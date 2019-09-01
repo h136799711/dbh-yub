@@ -25,7 +25,7 @@ class PayInfo
             'money' => $this->getMoney(),
             'notify_url' => $this->getNotifyUrl(),
             'passageway_code' => $this->getPassagewayCode(),
-//            'regist_bank_name' => $this->getRegistBankName(),
+            'regist_bank_name' => $this->getRegistBankName(),
             'shop_phone' => $this->getShopPhone(),
             'shop_sub_number' => $this->getShopSubNumber()
         ];

@@ -121,6 +121,9 @@ class Pay361
                     } elseif (array_key_exists('message', $arr)) {
                         $msg = $arr['message'];
                     }
+                    if (!array_key_exists('data', $arr)) {
+                        $arr['data'] = '----';
+                    }
                     return CallResultHelper::success($arr['data'], $msg);
                 } else {
                     if (!array_key_exists('data', $arr)) {
