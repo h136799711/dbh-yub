@@ -43,16 +43,14 @@ class Pay361CallbackController extends AbstractController
         $subPaymentNumber = $request->get('sub_payment_number', '');
         $sign = $request->get('sign', '');
         $data = [
-            "shop_sub_number" => $shopSubNumber,
-            "sub_payment_number" => $subPaymentNumber,
             "actual_money" => $actualMoney,
-            "sub_money" => $subMoney,
             "service_charge" => $serviceCharge,
+            "shop_phone" => $shopPhone,
+            "shop_sub_number" => $shopSubNumber,
+            "sub_money" => $subMoney,
+            "sub_payment_number" => $subPaymentNumber,
             "sub_state" => $subState,
-            "shop_phone" => $shopPhone
         ];
-
-        var_dump($data);
         $verifySign = SignTool::sign($data, ByEnv::get('PAY361_KEY'));
 
         if ($sign != $verifySign) {
