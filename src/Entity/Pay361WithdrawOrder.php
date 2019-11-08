@@ -131,9 +131,15 @@ class Pay361WithdrawOrder extends BaseEntity
      */
     private $notifyShopPhone;
 
+    /**
+     * @ORM\Column(type="string", length=256)
+     */
+    private $remark;
+
     public function __construct()
     {
         parent::__construct();
+        $this->setRemark('');
         $this->setState('');
         $this->setPaySign('');
         $this->setActualMoney(0);
@@ -422,6 +428,18 @@ class Pay361WithdrawOrder extends BaseEntity
     public function setNotifyShopPhone(string $notifyShopPhone): self
     {
         $this->notifyShopPhone = $notifyShopPhone;
+
+        return $this;
+    }
+
+    public function getRemark(): ?string
+    {
+        return $this->remark;
+    }
+
+    public function setRemark(string $remark): self
+    {
+        $this->remark = $remark;
 
         return $this;
     }
