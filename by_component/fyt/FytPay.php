@@ -27,6 +27,7 @@ class FytPay
     const DfChargeApiUrl = 'https://f.dcdmef.cn/DF/charge.do';
     const DfChargeInfoApiUrl = 'https://f.dcdmef.cn/DF/getChargeInfo.do';
 
+    protected $notifyUrl;
     protected $sysPublicRsaKey;
     protected $userPrivateRsaKey;
     protected $mchid;
@@ -49,7 +50,7 @@ class FytPay
             self::$instance->setUserPrivateRsaKey(Rsa::formatPrivateText(ByEnv::get('FYT361_USER_PRI_KEY')));
             self::$instance->setSysPublicRsaKey(Rsa::formatPublicText(ByEnv::get('FYT361_SYS_PUB_KEY')));
             self::$instance->setMchid(ByEnv::get('FYT361_MCHID'));
-
+            self::$instance->setNotifyUrl(ByEnv::get('FYT361_NOTIFY_URL'));
             if (empty(self::$instance->userPrivateRsaKey)) {
                 throw new \Exception('FYT361_USER_PRI_KEY must set');
             }
@@ -61,6 +62,22 @@ class FytPay
             }
         }
         return self::$instance;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNotifyUrl()
+    {
+        return $this->notifyUrl;
+    }
+
+    /**
+     * @param mixed $notifyUrl
+     */
+    public function setNotifyUrl($notifyUrl): void
+    {
+        $this->notifyUrl = $notifyUrl;
     }
 
     /**

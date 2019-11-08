@@ -71,7 +71,10 @@ class WithdrawOrderController extends BaseNeedLoginController
         $entity->setCertNumber($certNumber);
 
         $entity->setOrderNo((CodeGenerator::payCodeByClientId($shopPhone.$passagewayCode.$money)));
-        $entity->setNotifyUrl(ByEnv::get("PAY361_NOTIFY_URL"));
+
+        $entity->setNotifyUrl(FytPay::getInstance()->getNotifyUrl());
+//        $entity->setNotifyUrl(ByEnv::get('PAY361_NOTIFY_URL'));
+
         $data = Object2DataArrayHelper::getDataArrayFrom($entity);
         ksort($data);
         $sign = md5(json_encode($data, JSON_UNESCAPED_UNICODE));
