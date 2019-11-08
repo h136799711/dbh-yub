@@ -45,9 +45,8 @@ class PayFytCallbackController  extends AbstractController
         if (ByEnv::get('FYT_DEBUG') == 1) {
             $this->logService->error('raw: '.$json, ["c" => 'PayfytChargeCallback']);
         }
-//        $all = json_encode($request->request->all());
-//        $get = json_encode($request->query->all());
-//        $this->logService->info($all.';'.$get, ["c" => 'PayfytCallback']);
+        $data = json_decode($json, JSON_OBJECT_AS_ARRAY);
+
 //        mchid	Y	String	分配的商户号
 //amount	Y	Int	代付金额元
 //cporder	Y	String	代付请求时候的渠道订单号
