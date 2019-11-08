@@ -118,6 +118,7 @@ class WithdrawOrderController extends BaseNeedLoginController
 
 
     public function query(PagingParams $pagingParams, $startTime, $endTime, $minMoney = 0, $maxMoney = 0) {
+        $this->checkLogin();
         $map = [];
         $minMoney = intval($minMoney);
         $maxMoney = intval($maxMoney);
@@ -161,6 +162,7 @@ class WithdrawOrderController extends BaseNeedLoginController
     }
 
     public function info($orderNo) {
+        $this->checkLogin();
         return $this->pay361WithdrawOrderService->info(['order_no' => $orderNo]);
     }
 }

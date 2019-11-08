@@ -79,6 +79,7 @@ class ChargeOrderController extends BaseNeedLoginController
 
 
     public function query(PagingParams $pagingParams, $startTime, $endTime, $minMoney = 0, $maxMoney = 0) {
+        $this->checkLogin();
         $map = [];
         $minMoney = intval($minMoney);
         $maxMoney = intval($maxMoney);
@@ -122,6 +123,7 @@ class ChargeOrderController extends BaseNeedLoginController
     }
 
     public function info($orderNo) {
+        $this->checkLogin();
         return $this->chargeService->info(['order_no' => $orderNo]);
     }
 }
