@@ -7,6 +7,8 @@ namespace App\Controller;
 use App\Entity\Pay361WithdrawOrder;
 use App\Helper\CodeGenerator;
 use App\ServiceInterface\Pay361WithdrawOrderServiceInterface;
+use by\component\fyt\FytPay;
+use by\component\fyt\FytPayInfo;
 use by\component\paging\vo\PagingParams;
 use by\component\pay361\Pay361;
 use by\component\pay361\PayInfo;
@@ -78,20 +80,39 @@ class WithdrawOrderController extends BaseNeedLoginController
         $this->pay361WithdrawOrderService->add($entity);
 
         // 发起代付申请
-        $payInfo = new PayInfo();
-        $payInfo->setShopPhone($entity->getShopPhone());
-        $payInfo->setBankCardNumber($entity->getBankCardNumber());
-        $payInfo->setBankName($entity->getBankName());
-        $payInfo->setRegistBankName($entity->getRegistBankName());
-        $payInfo->setMoney($entity->getMoney());
-        $payInfo->setPassagewayCode($entity->getPassagewayCode());
-        $payInfo->setCardUserName($entity->getCardUserName());
-        $payInfo->setShopSubNumber($entity->getOrderNo());
-        $payInfo->setNotifyUrl(($entity->getNotifyUrl()));
-        $note = '用户'.$this->getUid().'发起了代付请求'.json_encode($payInfo->toArray());
+//        $payInfo = new PayInfo();
+//        $payInfo->setShopPhone($entity->getShopPhone());
+//        $payInfo->setBankCardNumber($entity->getBankCardNumber());
+//        $payInfo->setBankName($entity->getBankName());
+//        $payInfo->setRegistBankName($entity->getRegistBankName());
+//        $payInfo->setMoney($entity->getMoney());
+//        $payInfo->setPassagewayCode($entity->getPassagewayCode());
+//        $payInfo->setCardUserName($entity->getCardUserName());
+//        $payInfo->setShopSubNumber($entity->getOrderNo());
+//        $payInfo->setNotifyUrl(($entity->getNotifyUrl()));
+        $note = '用户'.$this->getUid().'发起了代付请求'.$entity->getOrderNo();
         $this->logUserAction($this->userLogService, $note);
-        return Pay361::getInstance()->pay($payInfo);
+        return $this->fytPay($entity);
+//        return Pay361::getInstance()->pay($payInfo);
     }
+
+    /**
+     * @param Pay361WithdrawOrder $order
+     * @return \by\infrastructure\base\CallResult
+     * @throws \Exception
+     */
+    protected function fytPay(Pay361WithdrawOrder $order) {
+
+        $fytPayInfo = new FytPayInfo();
+        $fytPayInfo->setCporder($order->getOrderNo());
+        $fytPayInfo->setNotifyUrl($order->getNotifyUrl());
+        $fytPayInfo->setAmount($order->getMoney());
+        $fytPayInfo->setCardNo($order->getBankCardNumber());
+        $fytPayInfo->setCardName($order->getCardUserName());
+        $fytPayInfo->setBankName($order->getBankName());
+        return FytPay::getInstance()->pay($fytPayInfo);
+    }
+
 
     public function query(PagingParams $pagingParams, $startTime, $endTime, $minMoney = 0, $maxMoney = 0) {
         $map = [];
