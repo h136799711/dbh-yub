@@ -114,6 +114,9 @@ class PayFytCallbackController  extends AbstractController
 //status	Y	String	300表示下发成功，306下发失败
 //sign	Y	String	签名
         $mchid = $request->get('mchid', '');
+        if (empty($mchid)) {
+            return new Response($mchid.'sign verify failed');
+        }
         $amount = $request->get('amount', '');
         $cporder = $request->get('cporder', '');
         $status = $request->get('status', '');
