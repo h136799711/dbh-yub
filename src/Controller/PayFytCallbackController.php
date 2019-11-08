@@ -99,13 +99,15 @@ class PayFytCallbackController  extends AbstractController
      */
     public function charge(Request $request)
     {
-        $all = json_encode($request->request->all());
-        $get = json_encode($request->query->all());
+//        $all = json_encode($request->request->all());
+//        $get = json_encode($request->query->all());
         $json = file_get_contents('php://input');
 
         if (ByEnv::get('FYT_DEBUG') == 1) {
-            $this->logService->error($all . ';' . $get.'raw: '.$json, ["c" => 'PayfytChargeCallback']);
+            $this->logService->error('raw: '.$json, ["c" => 'PayfytChargeCallback']);
         }
+        $data = json_decode($json, JSON_OBJECT_AS_ARRAY);
+
 //        mchid	Y	String	分配的商户号
 //amount	Y	Int	代付金额元
 //cporder	Y	String	代付请求时候的渠道订单号
@@ -113,14 +115,15 @@ class PayFytCallbackController  extends AbstractController
 //payType	Y	String	下发类型，企业还是个人
 //status	Y	String	300表示下发成功，306下发失败
 //sign	Y	String	签名
-        $mchid = $request->get('mchid', '');
+        $mchid = $data['mchid'];
         if (empty($mchid)) {
             return new Response($mchid.'sign verify failed');
         }
-        $amount = $request->get('amount', '');
-        $cporder = $request->get('cporder', '');
-        $status = $request->get('status', '');
-        $sign = $request->get('sign', '');
+        $amount = $data['amount'];
+        $cporder = $data['cporder'];
+        $status = $data['status'];
+        $sign = $data['sign'];
+
         $data = [
             "mchid" => $mchid,
             "amount" => $amount,
