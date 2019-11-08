@@ -77,7 +77,7 @@ class IndexController extends BaseSymfonyApiController
      */
     public function index()
     {
-        $serviceType = $this->getServiceType();
+        $serviceType = trim($this->getServiceType());
         $ver = $this->getServiceVersion();
         $this->logger->debug('entry index');
         $this->checkVersion($ver, $serviceType);
