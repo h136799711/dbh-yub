@@ -38,12 +38,12 @@ class PayFytCallbackController  extends AbstractController
      */
     public function index(Request $request)
     {
-        $all = json_encode($request->request->all());
-        $get = json_encode($request->query->all());
+//        $all = json_encode($request->request->all());
+//        $get = json_encode($request->query->all());
         $json = file_get_contents('php://input');
 
         if (ByEnv::get('FYT_DEBUG') == 1) {
-            $this->logService->error($all . ';' . $get.'raw: '.$json, ["c" => 'PayfytChargeCallback']);
+            $this->logService->error('raw: '.$json, ["c" => 'PayfytChargeCallback']);
         }
 //        $all = json_encode($request->request->all());
 //        $get = json_encode($request->query->all());
@@ -55,13 +55,13 @@ class PayFytCallbackController  extends AbstractController
 //payType	Y	String	下发类型，企业还是个人
 //status	Y	String	300表示下发成功，306下发失败
 //sign	Y	String	签名
-        $mchid = $request->get('mchid', '');
-        $amount = $request->get('amount', '');
-        $cporder = $request->get('cporder', '');
-        $remark = $request->get('remark', '');
-        $payType = $request->get('payType', '');
-        $status = $request->get('status', '');
-        $sign = $request->get('sign', '');
+        $mchid = $data['mchid'];
+        $amount = $data['amount'];
+        $cporder = $data['cporder'];
+        $remark = $data['remark'];
+        $payType = $data['payType'];
+        $status = $data['status'];
+        $sign = $data['sign'];
         $data = [
             "mchid" => $mchid,
             "amount" => $amount,
