@@ -143,7 +143,6 @@ class PayFytCallbackController  extends AbstractController
         $event->setAmount($amount);
         $event->setCporder($cporder);
         $event->setSign($sign);
-
         $this->eventDispatcher->dispatch($event);
 
         return new Response('success');

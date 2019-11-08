@@ -60,7 +60,7 @@ class Pay361NotifyEventListener implements EventSubscriberInterface
 
             if (!$order instanceof ChargeOrder) {
                 $this->chargeOrderService->getEntityManager()->rollback();
-                $errMsg = 'invalid shop_sub_number ' . $orderNo;
+                $errMsg = 'invalid order no ' . $orderNo;
                 $this->logger->error($errMsg);
                 return;
             }
