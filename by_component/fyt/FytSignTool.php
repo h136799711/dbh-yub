@@ -12,6 +12,7 @@ class FytSignTool
         ksort($params, SORT_ASC);
         $str = '';
         foreach ($params as $k => $v) {
+            if (strlen($v) == 0) continue;
             if (is_null($v)) {
                 $v = '';
             }
@@ -27,6 +28,7 @@ class FytSignTool
         ksort($params, SORT_ASC);
         $str = '';
         foreach ($params as $k => $v) {
+            if (strlen($v) == 0) continue;
             if (is_null($v)) {
                 $v = '';
             }
