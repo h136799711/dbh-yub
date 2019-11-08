@@ -91,6 +91,48 @@ class FytPay
         return $this;
     }
 
+    public function charge(FytChargeInfo $chargeInfo) {
+        $params = [
+            'mchid' => $this->getMchid(),
+            'amount' => $chargeInfo->getAmount(),
+            'cporder' => $chargeInfo->getCporder(),
+            'name' => $chargeInfo->getName(),
+            'evidence' => $chargeInfo->getEvidence(),
+            'mark' => $chargeInfo->getMark(),
+            'notifyurl' => $chargeInfo->getNotifyurl(),
+            'card' => $chargeInfo->getCard(),
+        ];
+        $ret = $this->getRequest(self::DfChargeApiUrl, $params);
+        if ($ret->isFail()) return $ret;
+        $data = $ret->getData();
+        if (!array_key_exists('status', $data)) {
+            return CallResultHelper::fail('返回结果格式错误', $data);
+        }
+        if ($data['status'] == '400') {
+            return CallResultHelper::success($data);
+        } else {
+            return CallResultHelper::fail($data['msg'], $data);
+        }
+    }
+
+    public function chargeInfo() {
+
+        $params = [
+            'mchid' => $this->getMchid()
+        ];
+        $ret = $this->getRequest(self::DfChargeInfoApiUrl, $params);
+        if ($ret->isFail()) return $ret;
+        $data = $ret->getData();
+        if (!array_key_exists('status', $data)) {
+            return CallResultHelper::fail('返回结果格式错误', $data);
+        }
+        if ($data['status'] == '500') {
+            return CallResultHelper::success($data['amount']);
+        } else {
+            return CallResultHelper::fail($data['msg'], $data);
+        }
+    }
+
     public function pay(FytPayInfo $fytPayInfo)
     {
         $params = [
