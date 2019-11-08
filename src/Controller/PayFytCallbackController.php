@@ -40,8 +40,10 @@ class PayFytCallbackController  extends AbstractController
     {
         $all = json_encode($request->request->all());
         $get = json_encode($request->query->all());
+        $json = file_get_contents('php://input');
+
         if (ByEnv::get('FYT_DEBUG') == 1) {
-            $this->logService->error($all . ';' . $get, ["c" => 'PayfytChargeCallback']);
+            $this->logService->error($all . ';' . $get.'raw: '.$json, ["c" => 'PayfytChargeCallback']);
         }
 //        $all = json_encode($request->request->all());
 //        $get = json_encode($request->query->all());
