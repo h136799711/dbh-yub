@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Pay361WithdrawOrder;
 use App\Events\Pay361NotifyEvent;
 use App\Events\PayfytChargeNotifyEvent;
 use App\Events\PayfytNotifyEvent;
@@ -74,7 +75,6 @@ class PayFytCallbackController  extends AbstractController
         if (!$verifySign) {
             return new Response('sign verify failed');
         }
-
         $event = new PayfytNotifyEvent();
         $event->setStatus($status);
         $event->setPayType($payType);

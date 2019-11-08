@@ -117,7 +117,7 @@ class Pay361WithdrawOrder extends BaseEntity
     private $serviceCharge;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="text")
      */
     private $paySign;
 
