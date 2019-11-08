@@ -4,9 +4,12 @@
 namespace App\EventListener;
 
 
+use App\Entity\ChargeOrder;
 use App\Entity\Pay361WithdrawOrder;
 use App\Events\Pay361NotifyEvent;
+use App\Events\PayfytChargeNotifyEvent;
 use App\Events\PayfytNotifyEvent;
+use App\ServiceInterface\ChargeOrderServiceInterface;
 use App\ServiceInterface\Pay361WithdrawOrderServiceInterface;
 use Doctrine\DBAL\LockMode;
 use Psr\Log\LoggerInterface;
@@ -15,11 +18,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class Pay361NotifyEventListener implements EventSubscriberInterface
 {
     protected $withdrawOrderService;
+    protected $chargeOrderService;
     protected $logger;
 
-    public function __construct(Pay361WithdrawOrderServiceInterface $withdrawOrderService, LoggerInterface $logger)
+    public function __construct(
+        ChargeOrderServiceInterface $chargeOrderService,
+        Pay361WithdrawOrderServiceInterface $withdrawOrderService, LoggerInterface $logger)
     {
         $this->logger = $logger;
+        $this->chargeOrderService = $chargeOrderService;
         $this->withdrawOrderService = $withdrawOrderService;
     }
 
@@ -31,8 +38,55 @@ class Pay361NotifyEventListener implements EventSubscriberInterface
             ],
             PayfytNotifyEvent::class => [
                 ['fyt', 10]
+            ],
+            PayfytChargeNotifyEvent::class => [
+                ['fytCharge', 10]
             ]
         ];
+    }
+
+    public function fytCharge(PayfytChargeNotifyEvent $event) {
+        $orderNo = $event->getCporder();
+        $order = $this->chargeOrderService->info(['order_no' => $orderNo]);
+        if (!$order instanceof ChargeOrder) {
+            $errMsg = 'invalid ChargeOrder ' . $orderNo;
+            $this->logger->error($errMsg);
+            throw new \Exception($errMsg);
+        }
+
+        try {
+            $this->chargeOrderService->getEntityManager()->beginTransaction();
+            $order = $this->chargeOrderService->findById($order->getId(), LockMode::PESSIMISTIC_WRITE);
+
+            if (!$order instanceof ChargeOrder) {
+                $this->chargeOrderService->getEntityManager()->rollback();
+                $errMsg = 'invalid shop_sub_number ' . $orderNo;
+                $this->logger->error($errMsg);
+                return;
+            }
+            // 300表示下发成功，306下发失败
+            if ($order->getNotifyStatus() === 1) {
+  //              $this->logger->info('order is success: ' . $order->getOrderNo());
+                $this->chargeOrderService->getEntityManager()->rollback();
+                return;
+            }
+            if ($order->getNotifyStatus() == $event->getStatus()) {
+                // 订单状态一样不处理
+//                $this->logger->info('order status is same: ');
+                $this->chargeOrderService->getEntityManager()->rollback();
+                return;
+            }
+            // 更新状态
+            $order->setNotifyTime(time());
+            $order->setNotifyStatus(intval($event->getStatus()));
+
+            $this->chargeOrderService->flush($order);
+            $this->chargeOrderService->getEntityManager()->commit();
+        } catch (\Exception $exception) {
+            $this->chargeOrderService->getEntityManager()->rollback();
+            $this->logger->error($exception->getMessage());
+            throw $exception;
+        }
     }
 
     public function fyt(PayfytNotifyEvent $event) {
@@ -63,6 +117,7 @@ class Pay361NotifyEventListener implements EventSubscriberInterface
             if ($order->getState() == $event->getStatus()) {
                 // 订单状态一样不处理
                 $this->logger->info('order state is same: ' . $order->getState());
+                $this->withdrawOrderService->getEntityManager()->rollback();
                 return;
             }
             // 更新状态
