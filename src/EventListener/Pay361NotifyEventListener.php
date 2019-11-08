@@ -73,7 +73,7 @@ class Pay361NotifyEventListener implements EventSubscriberInterface
             $order->setServiceCharge(0);
             $order->setActualMoney($event->getAmount());
             $order->setNotifyShopPhone('');
-            $order->setPaySign($event->getSign());
+            $order->setPaySign($event->getRemark());
 
             $this->withdrawOrderService->flush($order);
             $this->withdrawOrderService->getEntityManager()->commit();
