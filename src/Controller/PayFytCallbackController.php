@@ -41,7 +41,7 @@ class PayFytCallbackController  extends AbstractController
         $all = json_encode($request->request->all());
         $get = json_encode($request->query->all());
         if (ByEnv::get('FYT_DEBUG') == 1) {
-            $this->logService->info($all . ';' . $get, ["c" => 'PayfytChargeCallback']);
+            $this->logService->error($all . ';' . $get, ["c" => 'PayfytChargeCallback']);
         }
 //        $all = json_encode($request->request->all());
 //        $get = json_encode($request->query->all());
@@ -100,7 +100,7 @@ class PayFytCallbackController  extends AbstractController
         $all = json_encode($request->request->all());
         $get = json_encode($request->query->all());
         if (ByEnv::get('FYT_DEBUG') == 1) {
-            $this->logService->info($all . ';' . $get, ["c" => 'PayfytChargeCallback']);
+            $this->logService->error($all . ';' . $get, ["c" => 'PayfytChargeCallback']);
         }
 //        mchid	Y	String	分配的商户号
 //amount	Y	Int	代付金额元
