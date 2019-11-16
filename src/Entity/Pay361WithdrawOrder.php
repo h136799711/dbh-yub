@@ -161,6 +161,7 @@ class Pay361WithdrawOrder extends BaseEntity
         $this->setNotifyUrl('');
         $this->setCardUserName('');
         $this->setMoney(0);
+        $this->setCertNumber('');
     }
 
     public function getId(): ?int
