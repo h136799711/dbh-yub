@@ -37,7 +37,7 @@ class WmpayCallbackController extends AbstractController
         if (ByEnv::get('WMPAY_DEBUG')) {
             $all = json_encode($request->request->all());
             $get = json_encode($request->query->all());
-            $this->logService->info($all.';'.$get, ["c" => 'wmpay']);
+            $this->logService->error($all.';'.$get, ["c" => 'wmpay']);
         }
         $data = $request->request->all();
         $sign = $request->get('signature', '');
