@@ -41,8 +41,7 @@ class WmpayCallbackController extends AbstractController
         }
         $data = $request->request->all();
         $sign = $request->get('signature', '');
-
-        $verify = WmPaySignTool::verifySign($data, $sign , ByEnv::get('PAY361_KEY'));
+        $verify = WmPaySignTool::verifySign($data, $sign , ByEnv::get('WMPAY_KEY'));
         if (!$verify) {
             return new Response($sign.'verify failed');
         }
