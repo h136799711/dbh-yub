@@ -148,7 +148,19 @@ class Pay361WithdrawOrder extends BaseEntity
         $this->setSubMoney(0);
         $this->setNotifyTime(0);
         $this->setNotifyShopPhone('');
-
+        $this->setSign('');
+        $this->setShopPhone('');
+        $this->setNotifyShopPhone('');
+        $this->setCityNumber('');
+        $this->setState('');
+        $this->setBankName('');
+        $this->setRegistBankName('');
+        $this->setRegistBank('');
+        $this->setPassagewayCode('');
+        $this->setOrderNo('');
+        $this->setNotifyUrl('');
+        $this->setCardUserName('');
+        $this->setMoney(0);
     }
 
     public function getId(): ?int

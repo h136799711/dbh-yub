@@ -12,6 +12,7 @@ use by\component\fyt\FytChargeInfo;
 use by\component\fyt\FytPay;
 use by\component\fyt\FytPayInfo;
 use by\component\fyt\FytSignTool;
+use by\component\wmpay\WmPay;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -20,17 +21,23 @@ class ZmfPayApiTest extends TestCase
     public function testHadProduct()
     {
         (new Dotenv())->load(__DIR__.'/../../.env.local');
-        $api = FytPay::getInstance()->openDebug();
-        $chargeInfo = new FytChargeInfo();
-        $chargeInfo->setAmount(2);
-        $chargeInfo->setCporder('333');
-        $chargeInfo->setName('444');
-        $chargeInfo->setEvidence('http://www');
-        $chargeInfo->setNotifyurl('http://');
-        $chargeInfo->setMark('444');
-        $chargeInfo->setCard('333333');
-        $ret = $api->charge($chargeInfo);
+        $api = WmPay::getInstance()->openDebug();
+        $orderNo = date('Ymdhis');
+        $subjet = ('采购');
+        $body = ('Test');
+        $ret = $api->pay($orderNo, "300", "6633440045", "王", "01000000", $subjet, $body);
         var_dump($ret);
+//        $api = FytPay::getInstance()->openDebug();
+//        $chargeInfo = new FytChargeInfo();
+//        $chargeInfo->setAmount(2);
+//        $chargeInfo->setCporder('333');
+//        $chargeInfo->setName('444');
+//        $chargeInfo->setEvidence('http://www');
+//        $chargeInfo->setNotifyurl('http://');
+//        $chargeInfo->setMark('444');
+//        $chargeInfo->setCard('333333');
+//        $ret = $api->charge($chargeInfo);
+//        var_dump($ret);
 
     //        $ret = $api->chargeInfo();
 //        var_dump($ret);

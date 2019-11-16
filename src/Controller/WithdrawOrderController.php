@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Common\ByPayEnum;
 use App\Entity\Pay361WithdrawOrder;
 use App\Helper\CodeGenerator;
 use App\ServiceInterface\Pay361WithdrawOrderServiceInterface;
@@ -12,6 +13,7 @@ use by\component\fyt\FytPayInfo;
 use by\component\paging\vo\PagingParams;
 use by\component\pay361\Pay361;
 use by\component\pay361\PayInfo;
+use by\component\wmpay\WmPay;
 use by\infrastructure\helper\Object2DataArrayHelper;
 use Dbh\SfCoreBundle\Common\ByEnv;
 use Dbh\SfCoreBundle\Common\LoginSessionInterface;
@@ -33,6 +35,30 @@ class WithdrawOrderController extends BaseNeedLoginController
         $this->userLogService = $userLogService;
         $this->pay361WithdrawOrderService = $pay361WithdrawOrderService;
         parent::__construct($userAccountService, $loginSession, $kernel);
+    }
+
+    public function createWmpay($bankCardNumber, $bankId, $money, $cardUserName) {
+
+        $this->checkLogin();
+        $passagewayCode = ByPayEnum::WmPay;
+        $entity = new Pay361WithdrawOrder();
+        $entity->setBankCardNumber($bankCardNumber);
+        $entity->setBankName($bankId);
+        $entity->setMoney($money);
+        $entity->setCardUserName($cardUserName);
+        $entity->setOrderNo((CodeGenerator::payCodeByClientId($bankCardNumber)));
+        $entity->setPassagewayCode($passagewayCode);
+        $entity->setNotifyUrl(WmPay::getInstance()->getNotifyUrl());
+
+        $this->pay361WithdrawOrderService->add($entity);
+        $note = '用户'.$this->getUid().'发起了代付请求'.$entity->getOrderNo();
+        $this->logUserAction($this->userLogService, $note);
+        $subject = $body = "升级VIP";
+        return $this->wmpay($entity, $subject, $body);
+    }
+
+    protected function wmpay(Pay361WithdrawOrder $order, $subject, $body) {
+        return WmPay::getInstance()->pay($order->getOrderNo(), intval($order->getMoney() * 100), $order->getBankCardNumber(), $order->getCardUserName(), $order->getBankName(), $subject, $body);
     }
 
     /**
