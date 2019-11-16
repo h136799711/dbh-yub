@@ -25,7 +25,6 @@ class WmPaySignTool
             }
             $str .= $k.'='.$v;
         }
-        var_dump($str);
 
         return base64_encode(md5($str.$key));
     }
