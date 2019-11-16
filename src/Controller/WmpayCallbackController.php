@@ -34,10 +34,11 @@ class WmpayCallbackController extends AbstractController
      */
     public function index(Request $request)
     {
-        $all = json_encode($request->request->all());
-        $get = json_encode($request->query->all());
-        $this->logService->info($all.';'.$get, ["c" => 'Pay361Callback']);
-
+        if (ByEnv::get('WMPAY_DEBUG')) {
+            $all = json_encode($request->request->all());
+            $get = json_encode($request->query->all());
+            $this->logService->info($all.';'.$get, ["c" => 'Pay361Callback']);
+        }
         $data = $request->request->all();
         $sign = $request->get('signature', '');
 
