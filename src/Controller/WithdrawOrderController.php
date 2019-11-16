@@ -37,7 +37,8 @@ class WithdrawOrderController extends BaseNeedLoginController
         parent::__construct($userAccountService, $loginSession, $kernel);
     }
 
-    public function createWmpay($bankCardNumber, $bankId, $money, $cardUserName) {
+    public function createWmpay($bankCardNumber, $bankId, $money, $cardUserName)
+    {
 
         $this->checkLogin();
         $passagewayCode = ByPayEnum::WmPay;
@@ -51,13 +52,14 @@ class WithdrawOrderController extends BaseNeedLoginController
         $entity->setNotifyUrl(WmPay::getInstance()->getNotifyUrl());
 
         $this->pay361WithdrawOrderService->add($entity);
-        $note = '用户'.$this->getUid().'发起了代付请求'.$entity->getOrderNo();
+        $note = '用户' . $this->getUid() . '发起了代付请求' . $entity->getOrderNo();
         $this->logUserAction($this->userLogService, $note);
         $subject = $body = "升级VIP";
         return $this->wmpay($entity, $subject, $body);
     }
 
-    protected function wmpay(Pay361WithdrawOrder $order, $subject, $body) {
+    protected function wmpay(Pay361WithdrawOrder $order, $subject, $body)
+    {
         return WmPay::getInstance()->pay($order->getOrderNo(), intval($order->getMoney() * 100), $order->getBankCardNumber(), $order->getCardUserName(), $order->getBankName(), $subject, $body);
     }
 
@@ -78,7 +80,8 @@ class WithdrawOrderController extends BaseNeedLoginController
      */
     public function create($bankCardNumber, $bankName, $registBankName,
                            $money, $passagewayCode, $cardUserName, $certNumber, $registBank = '', $cityNumber = '', $shopPhone = ''
-    ) {
+    )
+    {
         if (empty($shopPhone)) {
             $shopPhone = Pay361::getDefaultShopPhone();
         }
@@ -96,7 +99,7 @@ class WithdrawOrderController extends BaseNeedLoginController
         $entity->setCardUserName($cardUserName);
         $entity->setCertNumber($certNumber);
 
-        $entity->setOrderNo((CodeGenerator::payCodeByClientId($shopPhone.$passagewayCode.$money)));
+        $entity->setOrderNo((CodeGenerator::payCodeByClientId($shopPhone . $passagewayCode . $money)));
 
         $entity->setNotifyUrl(FytPay::getInstance()->getNotifyUrl());
 //        $entity->setNotifyUrl(ByEnv::get('PAY361_NOTIFY_URL'));
@@ -119,7 +122,7 @@ class WithdrawOrderController extends BaseNeedLoginController
 //        $payInfo->setCardUserName($entity->getCardUserName());
 //        $payInfo->setShopSubNumber($entity->getOrderNo());
 //        $payInfo->setNotifyUrl(($entity->getNotifyUrl()));
-        $note = '用户'.$this->getUid().'发起了代付请求'.$entity->getOrderNo();
+        $note = '用户' . $this->getUid() . '发起了代付请求' . $entity->getOrderNo();
         $this->logUserAction($this->userLogService, $note);
         return $this->fytPay($entity);
 //        return Pay361::getInstance()->pay($payInfo);
@@ -130,7 +133,8 @@ class WithdrawOrderController extends BaseNeedLoginController
      * @return \by\infrastructure\base\CallResult
      * @throws \Exception
      */
-    protected function fytPay(Pay361WithdrawOrder $order) {
+    protected function fytPay(Pay361WithdrawOrder $order)
+    {
 
         $fytPayInfo = new FytPayInfo();
         $fytPayInfo->setCporder($order->getOrderNo());
@@ -143,7 +147,8 @@ class WithdrawOrderController extends BaseNeedLoginController
     }
 
 
-    public function query(PagingParams $pagingParams, $startTime, $endTime, $minMoney = 0, $maxMoney = 0) {
+    public function query(PagingParams $pagingParams, $startTime, $endTime, $minMoney = 0, $maxMoney = 0)
+    {
         $this->checkLogin();
         $map = [];
         $minMoney = intval($minMoney);
@@ -184,10 +189,23 @@ class WithdrawOrderController extends BaseNeedLoginController
             }
         }
 
-        return $this->pay361WithdrawOrderService->queryAndCount($map, $pagingParams, ["createTime" => "desc"]);
+        $fields = [
+            "id", "order_no",
+            "shop_phone", "bank_card_number",
+            "bank_name", "regist_bank", "regist_bank_name",
+            "money", "passageway_code",
+            "card_user_name", "cert_number",
+            "create_time", "update_time", "state", "pay_order_no",
+            "actual_money", "sub_money", "service_charge",
+            "notify_time", "notify_shop_phone",
+            "remark"
+        ];
+
+        return $this->pay361WithdrawOrderService->queryAndCount($map, $pagingParams, ["createTime" => "desc"], $fields);
     }
 
-    public function info($orderNo) {
+    public function info($orderNo)
+    {
         $this->checkLogin();
         return $this->pay361WithdrawOrderService->info(['order_no' => $orderNo]);
     }
