@@ -38,6 +38,11 @@ class WithdrawOrderController extends BaseNeedLoginController
         parent::__construct($userAccountService, $loginSession, $kernel);
     }
 
+    public function info($orderId) {
+        $this->checkLogin();
+        return DyPay::getInstance()->query($orderId);
+    }
+
     public function createDypay($bankCardNumber, $bankName, $money, $cardUserName) {
         $this->checkLogin();
         $passagewayCode = ByPayEnum::WmPay;
