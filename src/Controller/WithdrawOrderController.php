@@ -49,7 +49,7 @@ class WithdrawOrderController extends BaseNeedLoginController
         if ($ret->isSuccess()) {
             $order->setState($ret->getData());
             $this->pay361WithdrawOrderService->flush($order);
-            return CallResultHelper::success();
+            return CallResultHelper::success($ret->getData());
         }
         return $ret;
     }
