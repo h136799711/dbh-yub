@@ -142,6 +142,7 @@ class DypayCommand extends Command
             $this->service->flush($order);
         } else {
             $order->setRemark($order->getRemark().$ret->getMsg());
+            $order->setState(8);
             $this->service->flush($order);
         }
         return true;
