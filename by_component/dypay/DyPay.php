@@ -11,7 +11,7 @@ class DyPay
 {
 
 //39.98.134.65
-    const DfCreateApiUrl = 'http://60.190.138.134/payapi/Admin/PayApi/pay_order';
+    const DfCreateApiUrl = 'http://39.98.134.65/payapi/Admin/PayApi/pay_order';
 
     const DfQueryApiUrl = "http://60.190.138.134/payapi/Admin/PayApi/pay_query";
 
