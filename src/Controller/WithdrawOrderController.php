@@ -56,7 +56,7 @@ class WithdrawOrderController extends BaseNeedLoginController
 
     public function createDypay($bankCardNumber, $bankName, $money, $cardUserName) {
         $this->checkLogin();
-        $passagewayCode = ByPayEnum::WmPay;
+        $passagewayCode = ByPayEnum::DyPay;
         $entity = new Pay361WithdrawOrder();
         $entity->setBankCardNumber($bankCardNumber);
         $entity->setBankName($bankName);
