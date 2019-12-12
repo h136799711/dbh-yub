@@ -15,6 +15,7 @@ use by\component\paging\vo\PagingParams;
 use by\component\pay361\Pay361;
 use by\component\pay361\PayInfo;
 use by\component\wmpay\WmPay;
+use by\infrastructure\helper\CallResultHelper;
 use by\infrastructure\helper\Object2DataArrayHelper;
 use Dbh\SfCoreBundle\Common\ByEnv;
 use Dbh\SfCoreBundle\Common\LoginSessionInterface;
@@ -40,7 +41,17 @@ class WithdrawOrderController extends BaseNeedLoginController
 
     public function dypay_info($orderId) {
         $this->checkLogin();
-        return DyPay::getInstance()->query($orderId);
+        $order = $this->pay361WithdrawOrderService->info(['order_no' => $orderId]);
+        if (!($order instanceof Pay361WithdrawOrder)) {
+            return CallResultHelper::fail('[YUB]订单号不存在');
+        }
+        $ret = DyPay::getInstance()->query($orderId);
+        if ($ret->isSuccess()) {
+            $order->setState($ret->getData());
+            $this->pay361WithdrawOrderService->flush($order);
+            return CallResultHelper::success();
+        }
+        return $ret;
     }
 
     public function createDypay($bankCardNumber, $bankName, $money, $cardUserName) {
