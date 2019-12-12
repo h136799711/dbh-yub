@@ -80,7 +80,20 @@ class DyPay
         if ($ret->isSuccess()) {
             $data = $ret->getData();
             if (array_key_exists('status', $data)) {
-                return CallResultHelper::success($data['status']);
+                //0-代付申请成功；2-代付成功；3-正在代付；4、6失败，5-人工确认
+                $status = [
+                    '0' => '代付申请成功',
+                    '2' => '代付成功',
+                    '3' => '正在代付',
+                    '4' => '代付失败',
+                    '6' => '代付失败',
+                    '5' => '人工确认',
+                ];
+                $msg = '未知';
+                if (array_key_exists($data['status'], $status)) {
+                    $msg = $status[$data['status']];
+                }
+                return CallResultHelper::success($data['status'], $msg);
             } else {
                 return CallResultHelper::fail('缺少status参数', $data);
             }
