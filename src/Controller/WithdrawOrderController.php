@@ -8,6 +8,7 @@ use App\Common\ByPayEnum;
 use App\Entity\Pay361WithdrawOrder;
 use App\Helper\CodeGenerator;
 use App\ServiceInterface\Pay361WithdrawOrderServiceInterface;
+use by\component\dypay\DyPay;
 use by\component\fyt\FytPay;
 use by\component\fyt\FytPayInfo;
 use by\component\paging\vo\PagingParams;
@@ -35,6 +36,29 @@ class WithdrawOrderController extends BaseNeedLoginController
         $this->userLogService = $userLogService;
         $this->pay361WithdrawOrderService = $pay361WithdrawOrderService;
         parent::__construct($userAccountService, $loginSession, $kernel);
+    }
+
+    public function createDypay($bankCardNumber, $bankName, $money, $cardUserName) {
+        $this->checkLogin();
+        $passagewayCode = ByPayEnum::WmPay;
+        $entity = new Pay361WithdrawOrder();
+        $entity->setBankCardNumber($bankCardNumber);
+        $entity->setBankName($bankName);
+        $entity->setMoney($money);
+        $entity->setCardUserName($cardUserName);
+        $entity->setOrderNo((CodeGenerator::payCodeByClientId($bankCardNumber)));
+        $entity->setPassagewayCode($passagewayCode);
+        $entity->setNotifyUrl(DyPay::getInstance()->getNotifyUrl());
+
+        $this->pay361WithdrawOrderService->add($entity);
+        $note = '用户' . $this->getUid() . '发起了代付请求' . $entity->getOrderNo();
+        $this->logUserAction($this->userLogService, $note);
+        return $this->dypay($entity, "baoshi");
+    }
+
+    protected function dypay(Pay361WithdrawOrder $order, $body)
+    {
+        return DyPay::getInstance()->pay($order->getOrderNo(), $order->getMoney(), $order->getBankCardNumber(), $order->getCardUserName(), $order->getBankName(), $body);
     }
 
     public function createWmpay($bankCardNumber, $bankId, $money, $cardUserName)
