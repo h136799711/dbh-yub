@@ -38,7 +38,7 @@ class WithdrawOrderController extends BaseNeedLoginController
         parent::__construct($userAccountService, $loginSession, $kernel);
     }
 
-    public function info($orderId) {
+    public function dypay_info($orderId) {
         $this->checkLogin();
         return DyPay::getInstance()->query($orderId);
     }
