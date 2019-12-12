@@ -8,6 +8,7 @@
 
 namespace byTest\component\zmf_pay;
 
+use by\component\dypay\DyPay;
 use by\component\fyt\FytChargeInfo;
 use by\component\fyt\FytPay;
 use by\component\fyt\FytPayInfo;
@@ -20,12 +21,17 @@ class ZmfPayApiTest extends TestCase
 {
     public function testHadProduct()
     {
-        (new Dotenv())->load(__DIR__.'/../../.env.local');
-        $api = WmPay::getInstance()->openDebug();
+        (new Dotenv(true))->load(__DIR__.'/../../.env.local');
+//        $api = WmPay::getInstance()->openDebug();
+        $api = DyPay::getInstance()->openDebug();
         $orderNo = date('Ymdhis');
         $subjet = ('采购');
         $body = ('Test');
-        $ret = $api->pay($orderNo, "300", "6633440045", "王", "01000000", $subjet, $body);
+        var_dump($api->getKey());
+        var_dump($api->getAccount());
+        $ret = $api->query($orderNo);
+//        $ret = $api->pay($orderNo, "3", "622909503021092881", "3333", "3333");
+//        $ret = $api->pay($orderNo, "300", "6633440045", "王", "01000000", $subjet, $body);
         var_dump($ret);
 //        $api = FytPay::getInstance()->openDebug();
 //        $chargeInfo = new FytChargeInfo();
