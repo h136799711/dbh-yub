@@ -11,7 +11,7 @@ class DyPay
 {
 
 //39.98.134.65
-    const DfCreateApiUrl = 'http://39.98.134.65/payapi/Admin/PayApi/pay_order';
+    const DfCreateApiUrl = 'http://60.190.138.134/payapi/Admin/PayApi/pay_order';
 
     const DfQueryApiUrl = "http://60.190.138.134/payapi/Admin/PayApi/pay_query";
 
@@ -20,8 +20,6 @@ class DyPay
     protected $account;
 
     protected $isDebug;
-
-
     protected static $instance;
     protected $logger;
 
@@ -118,7 +116,7 @@ class DyPay
 
     public function sign($params, $key) {
         ksort($params, SORT_ASC);
-        return md5(http_build_query($params).$key);
+        return md5(urldecode(http_build_query($params)).$key);
     }
 
     public function getRequest($url, $params)

@@ -30,7 +30,7 @@ class ZmfPayApiTest extends TestCase
         var_dump($api->getKey());
         var_dump($api->getAccount());
 //        $ret = $api->query($orderNo);
-        $ret = $api->pay($orderNo, "3", "622909503021092881", "王", "工商银行分行");
+        $ret = $api->pay($orderNo, "3", "622909503021092881", "王", "工商");
 //        $ret = $api->pay($orderNo, "300", "6633440045", "王", "01000000", $subjet, $body);
         var_dump($ret);
 //        $api = FytPay::getInstance()->openDebug();
