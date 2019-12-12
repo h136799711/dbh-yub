@@ -126,6 +126,7 @@ class DypayCommand extends Command
         $list0 = $this->service->queryBy($map, $paging, ["id" => 'asc']);
         $allList = array_merge($list, $list3, $list0);
         var_dump($allList);
+        $output->writeln("process ".count($allList));
         foreach ($allList as $vo) {
             $this->notify($vo['id']);
         }
