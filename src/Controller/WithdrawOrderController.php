@@ -54,13 +54,14 @@ class WithdrawOrderController extends BaseNeedLoginController
         return $ret;
     }
 
-    public function createDypay($bankCardNumber, $bankName, $money, $cardUserName) {
+    public function createDypay($bankCardNumber, $bankName, $bankNo, $money, $cardUserName) {
         $this->checkLogin();
         $passagewayCode = ByPayEnum::DyPay;
         $entity = new Pay361WithdrawOrder();
         $entity->setBankCardNumber($bankCardNumber);
         $entity->setBankName($bankName);
         $entity->setMoney($money);
+        $entity->setRegistBank($bankNo);
         $entity->setCardUserName($cardUserName);
         $entity->setOrderNo((CodeGenerator::payCodeByClientId($bankCardNumber)));
         $entity->setPassagewayCode($passagewayCode);
@@ -74,7 +75,7 @@ class WithdrawOrderController extends BaseNeedLoginController
 
     protected function dypay(Pay361WithdrawOrder $order, $body)
     {
-        return DyPay::getInstance()->pay($order->getOrderNo(), $order->getMoney(), $order->getBankCardNumber(), $order->getCardUserName(), $order->getBankName(), $body);
+        return DyPay::getInstance()->pay($order->getOrderNo(), $order->getMoney(), $order->getBankCardNumber(), $order->getCardUserName(), $order->getBankName(), $order->getRegistBank(), $body);
     }
 
     public function createWmpay($bankCardNumber, $bankId, $money, $cardUserName)

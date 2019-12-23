@@ -107,16 +107,18 @@ class DyPay
      * @param $accNo
      * @param $name
      * @param $bankName
+     * @param $paybanknumber
      * @param string $body
      * @return \by\infrastructure\base\CallResult
      */
-    public function pay($orderId, $amount, $accNo, $name, $bankName, $body = "baoshi")
+    public function pay($orderId, $amount, $accNo, $name, $bankName, $paybanknumber, $body = "baoshi")
     {
         $params = [
             'account' => $this->account,
             'order_id' => $orderId,
             'nonce_str' => 'yub'.time(),
             'payamount' => $amount,
+            'paybanknumber' => $paybanknumber,
             'body' => $body,
             'cardtype' => '1',
             'payaccount' => $accNo,
