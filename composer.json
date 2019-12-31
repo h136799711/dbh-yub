@@ -36,7 +36,7 @@
     "symfony/maker-bundle": "1.11.*",
     "symfony/messenger": "4.3.*",
     "symfony/monolog-bundle": "3.3.*",
-    "symfony/orm-pack": "1.0.6",
+    "symfony/orm-pack": "1.0.5",
     "symfony/property-access": "4.3.*",
     "symfony/requirements-checker": "1.1.*",
     "symfony/security-bundle": "4.3.*",
