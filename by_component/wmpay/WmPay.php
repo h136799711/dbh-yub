@@ -12,6 +12,7 @@ class WmPay
 
 
     const DfCreateApiUrl = 'http://api.kvqym.com/resolve/daifu';
+    const DfInfoApiUrl = "http://api.kvqym.com/resolve/order/status";
 
     protected $notifyUrl;
     protected $key;
@@ -107,6 +108,17 @@ class WmPay
         return $this;
     }
 
+    public function info($orderNo) {
+        $params = [
+            'signMethod' => 'MD5',
+            'sendTime' => date("YmdHis"),
+            'merchantId' => $this->mchid,
+            'merOrderId' => $orderNo
+        ];
+        $ret = $this->getRequest(self::DfInfoApiUrl, $params);
+        return $ret;
+    }
+
     public function pay($orderNo, $amount, $accNo, $customerNm, $bankId, $subject = "升级VIP", $body = "升级VIP")
     {
         $params = [
@@ -144,8 +156,12 @@ class WmPay
     {
         $sign = WmPaySignTool::sign($params, $this->key);
 
-        $params['subject'] = base64_encode($params['subject']);
-        $params['body'] = base64_encode($params['body']);
+        if (array_key_exists('subject', $params)) {
+            $params['subject'] = base64_encode($params['subject']);
+        }
+        if (array_key_exists('body', $params)) {
+            $params['body'] = base64_encode($params['body']);
+        }
         $params['signature'] = $sign;
         if ($this->isDebug) {
             var_dump('params');

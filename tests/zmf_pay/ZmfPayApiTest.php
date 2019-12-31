@@ -22,18 +22,23 @@ class ZmfPayApiTest extends TestCase
     public function testHadProduct()
     {
         (new Dotenv(true))->load(__DIR__.'/../../.env.local');
-//        $api = WmPay::getInstance()->openDebug();
-        $api = DyPay::getInstance()->openDebug();
+        $api = WmPay::getInstance()->openDebug();
+        $ret = $api->info("6089591577774056FA89C9AC805848");
+        var_dump($ret);
+//        $api = DyPay::getInstance()->openDebug();
         $orderNo = date('Ymdhis');
+
+        $ret = $api->pay($orderNo, 400, "6228480369487287178", "程小辉", "01030000");
+        var_dump($ret);
         $subjet = ('采购');
         $body = ('Test');
-        var_dump($api->getKey());
-        var_dump($api->getAccount());
-        $ret = $api->query("20191223034655");
-        $paybanknumber = "103100000026";
+//        var_dump($api->getKey());
+//        var_dump($api->getAccount());
+//        $ret = $api->query("20191223034655");
+//        $paybanknumber = "103100000026";
 //
-        $ret = $api->pay($orderNo, "2", "6213361198015261579", "周道伟", "中国农业银行", $paybanknumber);
-        var_dump($ret);
+//        $ret = $api->pay($orderNo, "2", "6213361198015261579", "周道伟", "中国农业银行", $paybanknumber);
+//        var_dump($ret);
 //        $api = FytPay::getInstance()->openDebug();
 //        $chargeInfo = new FytChargeInfo();
 //        $chargeInfo->setAmount(2);
